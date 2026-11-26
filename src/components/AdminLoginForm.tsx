@@ -53,8 +53,8 @@ export function AdminLoginForm({ isPasswordConfigured }: AdminLoginFormProps) {
           <span>Kembali ke vedora.my.id</span>
         </Link>
 
-        <div className="mt-4 bezel-outer rounded-[26px] p-1.5 ring-1 ring-ink/[0.08]">
-          <div className="bezel-inner rounded-[20px] p-6 sm:p-8">
+        <div className="mt-4 bezel-outer rounded-[18px] p-1.5 ring-1 ring-ink/[0.08]">
+          <div className="bezel-inner rounded-[13px] p-6 sm:p-8">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ink text-plate">
                 <LockKey size={20} weight="regular" />
@@ -131,7 +131,7 @@ export function AdminLoginForm({ isPasswordConfigured }: AdminLoginFormProps) {
               <button
                 type="submit"
                 disabled={!isPasswordConfigured || submitting}
-                className="min-h-[46px] w-full rounded-full bg-ink px-5 text-sm font-medium text-plate transition-all duration-200 hover:bg-accent active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                className="min-h-[46px] w-full cursor-pointer rounded-[10px] bg-ink px-5 text-sm font-semibold text-plate transition-[background-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-accent active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {submitting ? "Memverifikasi..." : "Masuk ke Dashboard"}
               </button>

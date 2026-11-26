@@ -103,54 +103,38 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
     id: WorkbenchMode;
     label: string;
     icon: typeof Camera;
-    activeClass: string;
   }> = [
-    {
-      id: "vision",
-      label: "Edge Vision",
-      icon: Camera,
-      activeClass: "bg-vision text-plate shadow-[0_6px_16px_-4px_rgba(15,118,110,0.5)]",
-    },
-    {
-      id: "federated",
-      label: "Federated FL",
-      icon: ShareNetwork,
-      activeClass: "bg-accent text-plate shadow-[0_6px_16px_-4px_rgba(29,78,216,0.5)]",
-    },
-    {
-      id: "arduino",
-      label: "Arduino Bus",
-      icon: Circuitry,
-      activeClass: "bg-iot text-plate shadow-[0_6px_16px_-4px_rgba(194,94,0,0.5)]",
-    },
+    { id: "vision", label: "Edge Vision", icon: Camera },
+    { id: "federated", label: "Federated FL", icon: ShareNetwork },
+    { id: "arduino", label: "Arduino Bus", icon: Circuitry },
   ];
 
   return (
-    <div className="bezel-outer rounded-[26px] p-1.5 ring-1 ring-ink/[0.09]">
-      <div className="bezel-inner rounded-[20px] p-5 sm:p-6">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline pb-4">
-          <div>
-            <p className="font-display text-sm font-semibold text-ink">
+    <div className="bezel-outer rounded-[18px] p-1.5 ring-1 ring-ink/[0.08]">
+      <div className="bezel-inner rounded-[13px] p-5 sm:p-6">
+        <div className="flex items-start justify-between gap-3 border-b border-hairline pb-4">
+          <div className="min-w-0">
+            <p className="font-display text-sm font-semibold tracking-tight text-ink">
               {UI_COPY.workbench.heading[locale]}
             </p>
-            <p className="mt-0.5 text-xs text-ink-muted">
+            <p className="mt-0.5 text-xs leading-relaxed text-ink-muted">
               {UI_COPY.workbench.caption[locale]}
             </p>
           </div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-data/25 bg-data-soft px-3 py-1 font-mono text-[11px] font-medium text-data">
+          <div className="inline-flex shrink-0 items-center gap-2 pt-0.5 font-mono text-[11px] font-medium text-ink-secondary">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-led opacity-75" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-led opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-led" />
             </span>
-            <span>LIVE BENCH</span>
+            <span>bench-01</span>
           </div>
         </div>
 
-        {/* Distinct color-coded hardware mode selector */}
+        {/* Unified architectural mode selector */}
         <div
           role="tablist"
           aria-label="Engineering system simulator"
-          className="mt-4 grid grid-cols-3 gap-1.5 rounded-2xl border border-hairline bg-recess p-1.5"
+          className="mt-4 grid grid-cols-3 gap-1 rounded-[11px] bg-recess p-1"
         >
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -162,13 +146,13 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                 role="tab"
                 aria-selected={active}
                 onClick={() => setMode(tab.id)}
-                className={`flex min-h-[42px] cursor-pointer items-center justify-center gap-1.5 rounded-xl px-2 text-xs font-semibold transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.97] ${
+                className={`flex min-h-[38px] cursor-pointer items-center justify-center gap-1.5 rounded-[8px] px-2 text-xs font-semibold transition-[background-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] ${
                   active
-                    ? tab.activeClass
-                    : "bg-plate/65 text-ink-secondary hover:bg-plate hover:text-ink"
+                    ? "bg-ink text-plate"
+                    : "bg-transparent text-ink-secondary hover:bg-plate/60 hover:text-ink"
                 }`}
               >
-                <Icon size={15} weight={active ? "fill" : "regular"} />
+                <Icon size={14} weight={active ? "fill" : "regular"} />
                 <span className="truncate">{tab.label}</span>
               </button>
             );
@@ -176,27 +160,25 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
         </div>
 
         {/* Interactive display bay */}
-        <div className="mt-4 min-h-[268px] rounded-2xl border border-hairline bg-bench/80 p-4">
+        <div className="mt-4 min-h-[264px] rounded-[12px] bg-bench p-4">
           <AnimatePresence mode="wait">
             {mode === "vision" ? (
               <motion.div
                 key="vision"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                initial={{ opacity: 0, scale: 0.985 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.985 }}
+                transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
                 className="flex flex-col gap-3"
               >
-                <div className="flex items-center justify-between font-mono text-[11px] text-ink-secondary">
+                <div className="flex items-center justify-between font-mono text-[11px]">
                   <span className="font-semibold text-ink">
                     MAUNC MediaPipe Hand Landmarker
                   </span>
-                  <span className="rounded-md bg-vision-soft px-2 py-0.5 font-semibold text-vision">
-                    21 3D pts
-                  </span>
+                  <span className="font-medium text-accent">21 3D pts</span>
                 </div>
 
-                <div className="relative overflow-hidden rounded-xl border border-vision/25 bg-plate">
+                <div className="relative overflow-hidden rounded-[10px] border border-hairline bg-plate">
                   <svg
                     viewBox="0 0 300 180"
                     className="h-[154px] w-full"
@@ -213,22 +195,22 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                         <path
                           d="M 20 0 L 0 0 0 20"
                           fill="none"
-                          stroke="#D5DEE8"
-                          strokeWidth="0.6"
+                          stroke="#E5DFD3"
+                          strokeWidth="0.65"
                         />
                       </pattern>
                     </defs>
                     <rect width="300" height="180" fill="url(#cv-grid)" />
 
-                    {/* Animated live scanner sweep */}
+                    {/* Animated scanner sweep */}
                     <motion.line
                       x1="0"
                       x2="300"
-                      stroke="#0F766E"
+                      stroke="#B84A27"
                       strokeOpacity="0.28"
                       strokeWidth="1.5"
-                      initial={{ y1: 12, y2: 12 }}
-                      animate={{ y1: [12, 168, 12], y2: [12, 168, 12] }}
+                      initial={{ y1: 14, y2: 14 }}
+                      animate={{ y1: [14, 166, 14], y2: [14, 166, 14] }}
                       transition={{
                         duration: 4.5,
                         repeat: Infinity,
@@ -246,8 +228,8 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                           y1={p1.y}
                           x2={p2.x}
                           y2={p2.y}
-                          stroke="#334155"
-                          strokeWidth="1.7"
+                          stroke="#44403C"
+                          strokeWidth="1.65"
                           strokeLinecap="round"
                         />
                       );
@@ -263,14 +245,14 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                             <motion.circle
                               cx={pt.x}
                               cy={pt.y}
-                              fill="#0F766E"
-                              initial={{ r: 6, fillOpacity: 0.25 }}
+                              fill="#B84A27"
+                              initial={{ r: 6, fillOpacity: 0.22 }}
                               animate={{
-                                r: [6, 11, 6],
-                                fillOpacity: [0.28, 0.08, 0.28],
+                                r: [6, 10.5, 6],
+                                fillOpacity: [0.24, 0.06, 0.24],
                               }}
                               transition={{
-                                duration: 2,
+                                duration: 2.2,
                                 repeat: Infinity,
                                 ease: "easeInOut",
                               }}
@@ -279,8 +261,8 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                           <circle
                             cx={pt.x}
                             cy={pt.y}
-                            r={isTip ? "4" : "2.4"}
-                            fill={isTip ? "#0F766E" : "#0F172A"}
+                            r={isTip ? "3.8" : "2.3"}
+                            fill={isTip ? "#B84A27" : "#1A1917"}
                           />
                         </g>
                       );
@@ -289,7 +271,7 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                     <text
                       x="14"
                       y="24"
-                      fill="#0F172A"
+                      fill="#1A1917"
                       fontSize="10.5"
                       fontWeight="600"
                       fontFamily="var(--font-geist-mono), monospace"
@@ -299,7 +281,7 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                     <text
                       x="14"
                       y="39"
-                      fill="#0F766E"
+                      fill="#B84A27"
                       fontSize="10"
                       fontWeight="600"
                       fontFamily="var(--font-geist-mono), monospace"
@@ -309,7 +291,7 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                     <text
                       x="216"
                       y="168"
-                      fill="#64748B"
+                      fill="#766F67"
                       fontSize="9.5"
                       fontFamily="var(--font-geist-mono), monospace"
                     >
@@ -320,7 +302,9 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
 
                 <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5">
                   <span className="text-xs font-medium text-ink-secondary">
-                    {locale === "en" ? "Test gesture preset:" : "Uji gestur tangan:"}
+                    {locale === "en"
+                      ? "Test gesture preset"
+                      : "Uji gestur tangan"}
                   </span>
                   <div className="flex items-center gap-1.5">
                     {GESTURE_PRESETS.map((preset, idx) => (
@@ -328,10 +312,10 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                         key={preset.id}
                         type="button"
                         onClick={() => setGestureIdx(idx)}
-                        className={`min-h-[36px] min-w-[42px] cursor-pointer rounded-xl border px-3 font-mono text-xs font-semibold transition-all hover:-translate-y-0.5 active:scale-[0.95] ${
+                        className={`min-h-[34px] min-w-[40px] cursor-pointer rounded-[8px] px-3 font-mono text-xs font-semibold transition-[background-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.95] ${
                           gestureIdx === idx
-                            ? "border-vision bg-vision text-plate shadow-[0_6px_14px_-4px_rgba(15,118,110,0.5)]"
-                            : "border-ink/20 bg-plate text-ink hover:border-vision hover:text-vision"
+                            ? "bg-accent text-plate"
+                            : "bg-recess text-ink hover:bg-ink hover:text-plate"
                         }`}
                       >
                         {preset.label}
@@ -345,22 +329,20 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
             {mode === "federated" ? (
               <motion.div
                 key="federated"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                initial={{ opacity: 0, scale: 0.985 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.985 }}
+                transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
                 className="flex flex-col gap-3"
               >
-                <div className="flex items-center justify-between font-mono text-[11px] text-ink-secondary">
+                <div className="flex items-center justify-between font-mono text-[11px]">
                   <span className="font-semibold text-ink">
                     FedSocial V2 (Flower + PyTorch)
                   </span>
-                  <span className="rounded-md bg-data-soft px-2 py-0.5 font-semibold text-data">
-                    0-byte leak
-                  </span>
+                  <span className="font-medium text-accent">0-byte leak</span>
                 </div>
 
-                <div className="overflow-hidden rounded-xl border border-accent/25 bg-plate">
+                <div className="overflow-hidden rounded-[10px] border border-hairline bg-plate">
                   <svg
                     viewBox="0 0 300 180"
                     className="h-[154px] w-full"
@@ -379,14 +361,14 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                           y1={node.y}
                           x2={150}
                           y2={90}
-                          stroke="#94A3B8"
-                          strokeWidth="1.6"
+                          stroke="#C8C1B4"
+                          strokeWidth="1.5"
                           strokeDasharray="4 4"
                         />
                         <motion.circle
                           key={`${node.label}-${flRound}`}
-                          r="3.8"
-                          fill="#1D4ED8"
+                          r="3.5"
+                          fill="#B84A27"
                           initial={{ cx: node.x, cy: node.y, opacity: 1 }}
                           animate={{ cx: 150, cy: 90, opacity: [1, 1, 0] }}
                           transition={{
@@ -394,23 +376,23 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                             delay: index * 0.22,
                             repeat: Infinity,
                             repeatDelay: 0.5,
-                            ease: [0.32, 0.72, 0, 1],
+                            ease: [0.23, 1, 0.32, 1],
                           }}
                         />
                         <rect
                           x={node.x - 32}
-                          y={node.y - 16}
+                          y={node.y - 15}
                           width="64"
-                          height="32"
-                          rx="8"
-                          fill="#E6EFFF"
-                          stroke="#93B4FF"
+                          height="30"
+                          rx="7"
+                          fill="#F3EFE7"
+                          stroke="#D6CFC2"
                         />
                         <text
                           x={node.x}
-                          y={node.y + 3}
+                          y={node.y + 3.5}
                           textAnchor="middle"
-                          fill="#1D4ED8"
+                          fill="#1A1917"
                           fontSize="10"
                           fontWeight="600"
                           fontFamily="var(--font-geist-mono), monospace"
@@ -425,14 +407,14 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                       y="64"
                       width="92"
                       height="52"
-                      rx="12"
-                      fill="#1D4ED8"
+                      rx="10"
+                      fill="#1A1917"
                     />
                     <text
                       x="150"
                       y="86"
                       textAnchor="middle"
-                      fill="#FFFFFF"
+                      fill="#FBF9F5"
                       fontSize="10.5"
                       fontWeight="600"
                       fontFamily="var(--font-geist-mono), monospace"
@@ -443,7 +425,7 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                       x="150"
                       y="102"
                       textAnchor="middle"
-                      fill="#DBEAFE"
+                      fill="#E5B29E"
                       fontSize="9.5"
                       fontFamily="var(--font-geist-mono), monospace"
                     >
@@ -455,16 +437,18 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                 <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5">
                   <div className="font-mono text-xs tabular-nums text-ink-secondary">
                     val_loss{" "}
-                    <span className="font-semibold text-accent">{flLoss}</span>
+                    <span className="font-semibold text-ink">{flLoss}</span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setFlRound((r) => (r >= 24 ? 11 : r + 1))}
-                    className="inline-flex min-h-[36px] cursor-pointer items-center gap-1.5 rounded-xl bg-accent px-3.5 text-xs font-semibold text-plate shadow-[0_6px_14px_-4px_rgba(29,78,216,0.5)] transition-all hover:-translate-y-0.5 hover:bg-accent-hover active:scale-[0.96]"
+                    className="inline-flex min-h-[34px] cursor-pointer items-center gap-1.5 rounded-[8px] bg-accent px-3.5 text-xs font-semibold text-plate transition-[background-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-accent-hover active:scale-[0.96]"
                   >
                     <ArrowsClockwise size={14} weight="bold" />
                     <span>
-                      {locale === "en" ? "Sync weight round" : "Jalankan ronde FL"}
+                      {locale === "en"
+                        ? "Run weight round"
+                        : "Jalankan ronde FL"}
                     </span>
                   </button>
                 </div>
@@ -474,49 +458,49 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
             {mode === "arduino" ? (
               <motion.div
                 key="arduino"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                initial={{ opacity: 0, scale: 0.985 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.985 }}
+                transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
                 className="flex flex-col gap-3"
               >
-                <div className="flex items-center justify-between font-mono text-[11px] text-ink-secondary">
+                <div className="flex items-center justify-between font-mono text-[11px]">
                   <span className="font-semibold text-ink">
                     ARDUINO / smart_trash.ino
                   </span>
                   <span
-                    className={`rounded-md px-2 py-0.5 font-semibold ${
-                      servoOpen
-                        ? "bg-iot-soft text-iot"
-                        : "bg-recess text-ink-secondary"
+                    className={`font-medium tabular-nums ${
+                      servoOpen ? "text-accent" : "text-ink-muted"
                     }`}
                   >
                     {servoOpen ? "SERVO_D9: 90 deg" : "SERVO_D9: 0 deg"}
                   </span>
                 </div>
 
-                <div className="rounded-xl border border-iot/25 bg-plate p-3.5">
+                <div className="rounded-[10px] border border-hairline bg-plate p-3.5">
                   <div className="grid grid-cols-3 gap-2 font-mono text-xs tabular-nums">
-                    <div className="rounded-lg bg-bench p-2.5">
+                    <div className="rounded-[8px] bg-bench p-2.5">
                       <div className="text-[10px] text-ink-muted">HC-SR04</div>
                       <div className="mt-1 text-base font-bold text-ink">
                         {distanceCm} cm
                       </div>
                     </div>
-                    <div className="rounded-lg bg-bench p-2.5">
+                    <div className="rounded-[8px] bg-bench p-2.5">
                       <div className="text-[10px] text-ink-muted">ECHO</div>
                       <div className="mt-1 text-base font-bold text-ink">
                         {echoMicros} us
                       </div>
                     </div>
                     <div
-                      className={`rounded-lg p-2.5 transition-colors ${
-                        servoOpen ? "bg-iot text-plate" : "bg-bench text-ink-secondary"
+                      className={`rounded-[8px] p-2.5 transition-colors duration-150 ${
+                        servoOpen
+                          ? "bg-accent text-plate"
+                          : "bg-bench text-ink-secondary"
                       }`}
                     >
                       <div
                         className={`text-[10px] ${
-                          servoOpen ? "text-white/80" : "text-ink-muted"
+                          servoOpen ? "text-plate/75" : "text-ink-muted"
                         }`}
                       >
                         LID STATE
@@ -529,41 +513,41 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
 
                   {/* Animated Servo Arm & Ultrasonic Bar */}
                   <div className="mt-3.5 flex items-center gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-hairline bg-bench">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] bg-bench">
                       <svg viewBox="0 0 36 36" className="h-8 w-8">
                         <circle
                           cx="18"
                           cy="24"
-                          r="4"
-                          fill={servoOpen ? "#C25E00" : "#64748B"}
+                          r="3.8"
+                          fill={servoOpen ? "#B84A27" : "#766F67"}
                         />
                         <motion.line
                           x1="18"
                           y1="24"
                           x2="30"
                           y2="24"
-                          stroke={servoOpen ? "#C25E00" : "#334155"}
-                          strokeWidth="3"
+                          stroke={servoOpen ? "#B84A27" : "#44403C"}
+                          strokeWidth="2.8"
                           strokeLinecap="round"
                           style={{ originX: "18px", originY: "24px" }}
                           animate={{ rotate: servoOpen ? -90 : 0 }}
                           transition={{
                             type: "spring",
                             stiffness: 240,
-                            damping: 20,
+                            damping: 22,
                           }}
                         />
                       </svg>
                     </div>
                     <div className="flex-1">
-                      <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-recess">
+                      <div className="relative h-2 w-full overflow-hidden rounded-[4px] bg-recess">
                         <div
                           className="absolute top-0 bottom-0 left-[31%] z-10 w-[2px] bg-ink/50"
                           title="20cm threshold"
                         />
                         <div
-                          className={`h-full rounded-full transition-all duration-150 ${
-                            servoOpen ? "bg-iot" : "bg-ink-secondary"
+                          className={`h-full rounded-[4px] transition-[width,background-color] duration-150 ${
+                            servoOpen ? "bg-accent" : "bg-ink-secondary"
                           }`}
                           style={{
                             width: `${Math.min(100, Math.max(6, (distanceCm / 60) * 100))}%`,
@@ -572,7 +556,7 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                       </div>
                       <div className="mt-1.5 flex justify-between font-mono text-[10px] text-ink-muted">
                         <span>4 cm</span>
-                        <span className="font-semibold text-iot">
+                        <span className="font-semibold text-accent">
                           trigger &lt; 20 cm
                         </span>
                         <span>60 cm</span>
@@ -588,7 +572,7 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                         ? "Drag to simulate object proximity"
                         : "Geser untuk uji jarak objek"}
                     </span>
-                    <span className="font-mono text-[11px] font-semibold tabular-nums text-iot">
+                    <span className="font-mono text-[11px] font-semibold tabular-nums text-accent">
                       {distanceCm} cm
                     </span>
                   </div>
@@ -600,7 +584,7 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
                     onChange={(event) =>
                       setDistanceCm(Number(event.target.value))
                     }
-                    className="h-2.5 w-full cursor-pointer accent-iot"
+                    className="h-2 w-full cursor-pointer accent-accent"
                   />
                 </label>
               </motion.div>

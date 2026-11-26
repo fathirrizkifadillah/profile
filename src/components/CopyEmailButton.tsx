@@ -7,7 +7,7 @@ interface CopyEmailButtonProps {
   email: string;
   label: string;
   copiedLabel: string;
-  variant?: "secondary" | "inline";
+  variant?: "secondary" | "inline-dark";
 }
 
 export function CopyEmailButton({
@@ -37,31 +37,26 @@ export function CopyEmailButton({
     }
   }
 
-  if (variant === "inline") {
+  if (variant === "inline-dark") {
     return (
       <button
         type="button"
         onClick={handleCopy}
-        className={`inline-flex min-h-[48px] cursor-pointer items-center gap-2.5 rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.97] ${
+        aria-live="polite"
+        className={`inline-flex min-h-[46px] cursor-pointer items-center gap-2.5 rounded-[10px] px-4 py-2.5 text-sm font-medium transition-[background-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] ${
           copied
-            ? "border-data bg-data-soft text-data"
-            : "border-ink/20 bg-plate text-ink hover:border-accent hover:bg-accent-soft/60 hover:text-accent"
+            ? "bg-accent text-plate"
+            : "bg-white/10 text-plate hover:bg-white/18"
         }`}
       >
         <span className="font-mono text-[13px] tracking-tight">
           {copied ? copiedLabel : email}
         </span>
-        <span
-          className={`inline-flex h-7 w-7 items-center justify-center rounded-full ${
-            copied ? "bg-data text-plate" : "bg-recess text-ink"
-          }`}
-        >
-          {copied ? (
-            <Check size={14} weight="bold" />
-          ) : (
-            <Copy size={14} weight="bold" />
-          )}
-        </span>
+        {copied ? (
+          <Check size={15} weight="bold" />
+        ) : (
+          <Copy size={15} weight="bold" className="opacity-75" />
+        )}
       </button>
     );
   }
@@ -70,17 +65,17 @@ export function CopyEmailButton({
     <button
       type="button"
       onClick={handleCopy}
-      className={`inline-flex min-h-[48px] cursor-pointer items-center gap-2.5 rounded-full border px-5 py-2.5 text-sm font-semibold shadow-sm transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.97] ${
-        copied
-          ? "border-data bg-data-soft text-data"
-          : "border-ink/20 bg-plate text-ink hover:border-accent hover:bg-accent-soft/60 hover:text-accent"
-      }`}
       aria-live="polite"
+      className={`inline-flex min-h-[46px] cursor-pointer items-center gap-2.5 rounded-[10px] px-5 py-2.5 text-sm font-semibold transition-[background-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] ${
+        copied
+          ? "bg-ink text-plate"
+          : "bg-recess text-ink hover:bg-ink hover:text-plate"
+      }`}
     >
       {copied ? (
-        <Check size={16} weight="bold" className="text-data" />
+        <Check size={16} weight="bold" />
       ) : (
-        <Copy size={16} weight="bold" className="text-accent" />
+        <Copy size={16} weight="bold" />
       )}
       <span>{copied ? copiedLabel : label}</span>
     </button>

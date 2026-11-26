@@ -17,9 +17,9 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#EFF2F5",
+          backgroundColor: "#F3EFE7",
           padding: "56px 64px",
-          color: "#14191F",
+          color: "#1A1917",
           fontFamily: "sans-serif",
         }}
       >
@@ -35,9 +35,9 @@ export default function OpenGraphImage() {
               style={{
                 width: "36px",
                 height: "36px",
-                borderRadius: "10px",
-                backgroundColor: "#14191F",
-                color: "#FAFBFD",
+                borderRadius: "8px",
+                backgroundColor: "#1A1917",
+                color: "#FBF9F5",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -47,7 +47,7 @@ export default function OpenGraphImage() {
             >
               V
             </div>
-            <span style={{ fontSize: "24px", fontWeight: 600 }}>
+            <span style={{ fontSize: "22px", fontWeight: 600 }}>
               vedora.my.id
             </span>
           </div>
@@ -56,23 +56,19 @@ export default function OpenGraphImage() {
               display: "flex",
               alignItems: "center",
               gap: "10px",
-              padding: "10px 18px",
-              borderRadius: "999px",
-              backgroundColor: "#FAFBFD",
-              border: "1px solid #D4DCE4",
               fontSize: "18px",
-              color: "#485461",
+              color: "#57524B",
             }}
           >
             <div
               style={{
-                width: "10px",
-                height: "10px",
+                width: "8px",
+                height: "8px",
                 borderRadius: "999px",
-                backgroundColor: "#15803D",
+                backgroundColor: "#2F7D4F",
               }}
             />
-            <span>MAUNC IoT Lead, Universitas Siliwangi</span>
+            <span>MAUNC IoT Lead · Universitas Siliwangi</span>
           </div>
         </div>
 
@@ -91,9 +87,9 @@ export default function OpenGraphImage() {
           <div
             style={{
               fontSize: "24px",
-              color: "#485461",
+              color: "#57524B",
               maxWidth: "860px",
-              lineHeight: 1.4,
+              lineHeight: 1.45,
             }}
           >
             Generative AI, Machine Learning, On-Device Computer Vision, and IoT
@@ -106,14 +102,14 @@ export default function OpenGraphImage() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderTop: "1px solid #D4DCE4",
+            borderTop: "1px solid rgba(26, 25, 23, 0.14)",
             paddingTop: "24px",
             fontSize: "20px",
-            color: "#525E6B",
+            color: "#57524B",
           }}
         >
           <span>PyTorch / Flower FL / MediaPipe / Arduino / TypeScript</span>
-          <span style={{ color: "#1B4FD8", fontWeight: 600 }}>
+          <span style={{ color: "#B84A27", fontWeight: 600 }}>
             fathirrf80@gmail.com
           </span>
         </div>
