@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { createClient } from "redis";
 import {
   DEFAULT_PROFILE_CONTENT,
   type ProfileContent,
@@ -8,7 +9,17 @@ import {
 const KV_KEY = "vedora:profile:v1";
 const LOCAL_DATA_PATH = path.join(process.cwd(), "data", "profile.json");
 
-export type StorageBackend = "upstash-kv" | "github-repo" | "local-fs" | "readonly-seed";
+export type StorageBackend =
+  | "redis-url"
+  | "upstash-kv"
+  | "github-repo"
+  | "local-fs"
+  | "readonly-seed";
+
+function getRedisUrl(): string | null {
+  const url = process.env.REDIS_URL?.trim();
+  return url && url.length > 0 ? url : null;
+}
 
 function getKvConfig(): { url: string; token: string } | null {
   const url =
@@ -39,10 +50,41 @@ function getGitHubStoreConfig(): {
 }
 
 export function detectStorageBackend(): StorageBackend {
+  if (getRedisUrl()) return "redis-url";
   if (getKvConfig()) return "upstash-kv";
   if (getGitHubStoreConfig()) return "github-repo";
   if (process.env.VERCEL) return "readonly-seed";
   return "local-fs";
+}
+
+async function redisGet(url: string, key: string): Promise<string | null> {
+  const client = createClient({
+    url,
+    socket: { connectTimeout: 6000 },
+  });
+  await client.connect();
+  try {
+    return await client.get(key);
+  } finally {
+    await client.quit().catch(() => {});
+  }
+}
+
+async function redisSet(
+  url: string,
+  key: string,
+  value: string
+): Promise<void> {
+  const client = createClient({
+    url,
+    socket: { connectTimeout: 6000 },
+  });
+  await client.connect();
+  try {
+    await client.set(key, value);
+  } finally {
+    await client.quit().catch(() => {});
+  }
 }
 
 function mergeWithDefaults(partial: Partial<ProfileContent>): ProfileContent {
@@ -98,6 +140,19 @@ function mergeWithDefaults(partial: Partial<ProfileContent>): ProfileContent {
 }
 
 export async function getProfileContent(): Promise<ProfileContent> {
+  const redisUrl = getRedisUrl();
+  if (redisUrl) {
+    try {
+      const raw = await redisGet(redisUrl, KV_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Partial<ProfileContent>;
+        return mergeWithDefaults(parsed);
+      }
+    } catch {
+      // Fallback safely to next storage or default content
+    }
+  }
+
   const kv = getKvConfig();
   if (kv) {
     try {
@@ -155,12 +210,31 @@ export async function getProfileContent(): Promise<ProfileContent> {
 
 export async function saveProfileContent(
   input: ProfileContent
-): Promise<{ ok: true; backend: StorageBackend } | { ok: false; error: string; backend: StorageBackend }> {
+): Promise<
+  | { ok: true; backend: StorageBackend }
+  | { ok: false; error: string; backend: StorageBackend }
+> {
   const normalized: ProfileContent = {
     ...mergeWithDefaults(input),
     updatedAt: new Date().toISOString(),
   };
   const serialized = JSON.stringify(normalized, null, 2);
+
+  const redisUrl = getRedisUrl();
+  if (redisUrl) {
+    try {
+      await redisSet(redisUrl, KV_KEY, serialized);
+      return { ok: true, backend: "redis-url" };
+    } catch (error) {
+      return {
+        ok: false,
+        backend: "redis-url",
+        error: `Failed to save to Redis: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      };
+    }
+  }
 
   const kv = getKvConfig();
   if (kv) {
@@ -237,7 +311,7 @@ export async function saveProfileContent(
       ok: false,
       backend: "readonly-seed",
       error:
-        "Cloud storage is not connected yet. Connect free Upstash Redis in Vercel Storage (auto-adds UPSTASH_REDIS_REST_URL & UPSTASH_REDIS_REST_TOKEN) to persist edits online, or use Export JSON.",
+        "Cloud storage is not connected yet. Connect Redis (REDIS_URL) or Upstash Redis in Vercel Storage to persist edits online, or use Export JSON.",
     };
   }
 

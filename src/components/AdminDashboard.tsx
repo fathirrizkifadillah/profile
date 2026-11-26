@@ -45,10 +45,11 @@ interface AdminDashboardProps {
 }
 
 const STORAGE_LABELS: Record<StorageBackend, string> = {
+  "redis-url": "Redis Cloud (REDIS_URL Live)",
   "upstash-kv": "Upstash Redis (Cloud Live)",
   "github-repo": "GitHub Repo JSON (Cloud Live)",
   "local-fs": "Local JSON (data/profile.json)",
-  "readonly-seed": "Read-only (Connect Upstash KV)",
+  "readonly-seed": "Read-only (Connect Redis)",
 };
 
 function splitTags(value: string): string[] {

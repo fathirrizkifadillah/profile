@@ -42,19 +42,26 @@ export function CopyEmailButton({
       <button
         type="button"
         onClick={handleCopy}
-        className="inline-flex min-h-[44px] items-center gap-2.5 rounded-full border border-hairline-strong bg-plate px-5 py-2.5 text-sm font-medium text-ink transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-ink active:scale-[0.98]"
+        className={`inline-flex min-h-[48px] cursor-pointer items-center gap-2.5 rounded-full border px-5 py-2.5 text-sm font-medium shadow-sm transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.97] ${
+          copied
+            ? "border-data bg-data-soft text-data"
+            : "border-ink/20 bg-plate text-ink hover:border-accent hover:bg-accent-soft/60 hover:text-accent"
+        }`}
       >
-        <span className="font-mono text-[13px] tracking-tight text-ink-secondary">
-          {email}
+        <span className="font-mono text-[13px] tracking-tight">
+          {copied ? copiedLabel : email}
         </span>
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-recess text-ink">
+        <span
+          className={`inline-flex h-7 w-7 items-center justify-center rounded-full ${
+            copied ? "bg-data text-plate" : "bg-recess text-ink"
+          }`}
+        >
           {copied ? (
-            <Check size={15} weight="bold" className="text-led" />
+            <Check size={14} weight="bold" />
           ) : (
-            <Copy size={15} weight="regular" />
+            <Copy size={14} weight="bold" />
           )}
         </span>
-        <span className="sr-only">{copied ? copiedLabel : label}</span>
       </button>
     );
   }
@@ -63,13 +70,17 @@ export function CopyEmailButton({
     <button
       type="button"
       onClick={handleCopy}
-      className="inline-flex min-h-[48px] items-center gap-2.5 rounded-full border border-hairline-strong bg-plate px-5 py-2.5 text-sm font-medium text-ink transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-ink/60 hover:bg-white active:scale-[0.98]"
+      className={`inline-flex min-h-[48px] cursor-pointer items-center gap-2.5 rounded-full border px-5 py-2.5 text-sm font-semibold shadow-sm transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.97] ${
+        copied
+          ? "border-data bg-data-soft text-data"
+          : "border-ink/20 bg-plate text-ink hover:border-accent hover:bg-accent-soft/60 hover:text-accent"
+      }`}
       aria-live="polite"
     >
       {copied ? (
-        <Check size={16} weight="bold" className="text-led" />
+        <Check size={16} weight="bold" className="text-data" />
       ) : (
-        <Copy size={16} weight="regular" className="text-ink-secondary" />
+        <Copy size={16} weight="bold" className="text-accent" />
       )}
       <span>{copied ? copiedLabel : label}</span>
     </button>
