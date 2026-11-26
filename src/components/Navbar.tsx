@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { UI_COPY, type Locale } from "@/data/profile";
+import { DecryptedText } from "./reactbits/DecryptedText";
 
 interface NavbarProps {
   locale: Locale;
@@ -48,9 +49,10 @@ export function Navbar({ locale, onLocaleChange }: NavbarProps) {
               <span className="flex h-7 w-7 items-center justify-center rounded-[7px] bg-ink font-display text-xs font-bold text-plate transition-colors duration-200 group-hover:bg-accent">
                 V
               </span>
-              <span className="font-mono text-xs font-semibold tracking-tight text-ink">
-                vedora.my.id
-              </span>
+              <DecryptedText
+                text="vedora.my.id"
+                className="font-mono text-xs font-semibold tracking-tight text-ink"
+              />
             </a>
 
             <ul className="hidden items-center gap-0.5 md:flex">

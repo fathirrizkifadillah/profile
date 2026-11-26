@@ -9,6 +9,7 @@ import {
   ShareNetwork,
 } from "@phosphor-icons/react";
 import { UI_COPY, type Locale } from "@/data/profile";
+import { DecryptedText } from "./reactbits/DecryptedText";
 
 type WorkbenchMode = "vision" | "federated" | "arduino";
 
@@ -126,7 +127,7 @@ export function SignalWorkbench({ locale }: SignalWorkbenchProps) {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-led opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-led" />
             </span>
-            <span>bench-01</span>
+            <DecryptedText text="bench-01" />
           </div>
         </div>
 

@@ -14,6 +14,7 @@ import {
   type ProjectCategory,
   type ProjectItem,
 } from "@/data/profile";
+import { SpotlightCard } from "./reactbits/SpotlightCard";
 
 interface ProjectsShowcaseProps {
   locale: Locale;
@@ -212,7 +213,8 @@ export function ProjectsShowcase({ locale, projects }: ProjectsShowcaseProps) {
   return (
     <section
       id="work"
-      className="scroll-mt-28 border-t border-hairline py-20 sm:py-28"
+      data-rise-section
+      className="relative z-20 scroll-mt-28 border-t border-hairline bg-bench py-20 sm:py-28"
     >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6">
@@ -278,7 +280,7 @@ export function ProjectsShowcase({ locale, projects }: ProjectsShowcaseProps) {
               transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
               className="mt-10 bezel-outer rounded-[18px] p-1.5 ring-1 ring-ink/[0.08]"
             >
-              <div className="bezel-inner rounded-[13px] p-6 sm:p-8 lg:p-10">
+              <SpotlightCard className="bezel-inner rounded-[13px] p-6 sm:p-8 lg:p-10">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center">
                   <div className="lg:col-span-7">
                     <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
@@ -378,7 +380,7 @@ export function ProjectsShowcase({ locale, projects }: ProjectsShowcaseProps) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </SpotlightCard>
             </motion.div>
           ) : (
             <div className="mt-10 rounded-[14px] border border-hairline bg-plate p-10 text-center">

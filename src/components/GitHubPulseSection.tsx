@@ -12,6 +12,7 @@ import {
 import type { Locale } from "@/data/profile";
 import type { GitHubTelemetry } from "@/lib/github";
 import type { FocusTrack, StackGroup } from "@/types/profile-content";
+import { SpotlightCard } from "./reactbits/SpotlightCard";
 
 interface GitHubPulseSectionProps {
   locale: Locale;
@@ -37,7 +38,7 @@ export function GitHubPulseSection({
   return (
     <section
       aria-label="GitHub engineering telemetry"
-      className="border-t border-hairline bg-plate/65 py-16 sm:py-20"
+      className="relative z-10 rounded-t-[26px] border-t border-hairline bg-plate py-16 shadow-[0_-24px_56px_-28px_rgba(26,25,23,0.16)] sm:py-20"
     >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -83,8 +84,9 @@ export function GitHubPulseSection({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.48, ease: [0.23, 1, 0.32, 1] }}
-            className="rounded-[14px] border border-hairline bg-plate p-5 sm:p-6 lg:col-span-7"
+            className="lg:col-span-7"
           >
+            <SpotlightCard className="h-full rounded-[14px] border border-hairline bg-plate p-5 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline pb-4">
               <div className="flex items-center gap-2.5">
                 <TerminalWindow
@@ -233,6 +235,7 @@ export function GitHubPulseSection({
                 ))}
               </div>
             </div>
+            </SpotlightCard>
           </motion.div>
 
           {/* Right 5 cols: Current Focus + Editorial Stack Matrix (ZERO outlined badges) */}
@@ -243,7 +246,7 @@ export function GitHubPulseSection({
             transition={{ duration: 0.48, delay: 0.06, ease: [0.23, 1, 0.32, 1] }}
             className="flex flex-col gap-6 lg:col-span-5"
           >
-            <div className="rounded-[14px] border border-hairline bg-plate p-5 sm:p-6">
+            <SpotlightCard className="rounded-[14px] border border-hairline bg-plate p-5 sm:p-6">
               <div className="flex items-baseline justify-between border-b border-hairline pb-3.5">
                 <h3 className="font-display text-base font-semibold text-ink">
                   {locale === "en" ? "Current focus" : "Fokus saat ini"}
@@ -265,9 +268,9 @@ export function GitHubPulseSection({
                   </li>
                 ))}
               </ol>
-            </div>
+            </SpotlightCard>
 
-            <div className="flex-1 rounded-[14px] border border-hairline bg-plate p-5 sm:p-6">
+            <SpotlightCard className="flex-1 rounded-[14px] border border-hairline bg-plate p-5 sm:p-6">
               <div className="flex items-baseline justify-between border-b border-hairline pb-3.5">
                 <h3 className="font-display text-base font-semibold text-ink">
                   {locale === "en" ? "Technical stack" : "Stack teknis"}
@@ -301,7 +304,7 @@ export function GitHubPulseSection({
                   </div>
                 ))}
               </div>
-            </div>
+            </SpotlightCard>
           </motion.div>
         </div>
       </div>

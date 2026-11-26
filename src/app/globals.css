@@ -51,6 +51,25 @@ html {
   scroll-behavior: smooth;
   background-color: var(--bg-bench);
   color: var(--ink-primary);
+  overflow-x: clip;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
 }
 
 body {
