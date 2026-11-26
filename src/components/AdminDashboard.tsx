@@ -308,29 +308,34 @@ export function AdminDashboard({
     { id: "projects", label: `Projects (${content.projects.length})`, icon: FolderSimple },
     { id: "github-sync", label: "GitHub Sync", icon: GithubLogo },
     { id: "focus-stack", label: "Focus & Stack", icon: SlidersHorizontal },
-    { id: "timeline-certs", label: "Timeline & Certs", icon: UserList },
+    { id: "timeline-certs", label: "Timeline", icon: UserList },
     { id: "storage", label: "Storage & Backup", icon: Database },
   ];
 
   return (
     <div className="min-h-screen bg-bench text-ink">
       {/* Sticky Top Control Bar */}
-      <header className="sticky top-0 z-40 border-b border-hairline bg-plate/90 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-hairline bg-plate/92 backdrop-blur-md">
         <div className="mx-auto flex max-w-[1360px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-ink font-display text-sm font-semibold text-plate">
-              V
+            <div className="flex h-9 w-9 items-center justify-center rounded-[9px] border border-hairline bg-bench p-1.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/elements/vedora_logo_gold.png"
+                alt="Vedora Studio"
+                className="h-full w-full object-contain"
+              />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-display text-sm font-semibold text-ink">
                   Vedora Studio
                 </span>
-                <span className="rounded-full bg-recess px-2.5 py-0.5 font-mono text-[11px] text-ink-secondary">
+                <span className="rounded-[6px] border border-hairline bg-bench px-2.5 py-0.5 font-mono text-[11px] text-ink-secondary">
                   {STORAGE_LABELS[storageBackend]}
                 </span>
                 {dirty ? (
-                  <span className="rounded-full bg-accent-soft px-2.5 py-0.5 font-mono text-[11px] font-medium text-accent">
+                  <span className="rounded-[6px] border border-accent/40 bg-accent-soft px-2.5 py-0.5 font-mono text-[11px] font-medium text-accent">
                     Unsaved
                   </span>
                 ) : null}
@@ -345,7 +350,7 @@ export function AdminDashboard({
             <Link
               href="/"
               target="_blank"
-              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-hairline-strong bg-plate px-4 text-xs font-medium text-ink hover:border-ink"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-[10px] border border-hairline-strong bg-bench px-4 text-xs font-medium text-ink transition-colors hover:border-accent hover:text-accent"
             >
               <span>Lihat web</span>
               <ArrowUpRight size={14} weight="bold" />
@@ -355,7 +360,7 @@ export function AdminDashboard({
               type="button"
               onClick={handleSave}
               disabled={saving}
-              className="inline-flex min-h-[40px] items-center gap-2 rounded-full bg-ink px-5 text-xs font-medium text-plate transition-colors hover:bg-accent active:scale-[0.98] disabled:opacity-60"
+              className="inline-flex min-h-[40px] cursor-pointer items-center gap-2 rounded-[10px] bg-accent px-5 text-xs font-bold text-bench transition-[background-color,transform] duration-150 hover:bg-accent-hover active:scale-[0.98] disabled:opacity-60"
             >
               <FloppyDisk size={15} weight="bold" />
               <span>{saving ? "Menyimpan..." : "Save Changes"}</span>
@@ -364,7 +369,7 @@ export function AdminDashboard({
             <button
               type="button"
               onClick={handleLogout}
-              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-hairline bg-recess px-3.5 text-xs font-medium text-ink-secondary hover:text-ink"
+              className="inline-flex min-h-[40px] cursor-pointer items-center gap-1.5 rounded-[10px] border border-hairline bg-recess px-3.5 text-xs font-medium text-ink-secondary transition-colors hover:text-ink"
             >
               <SignOut size={15} />
               <span>Keluar</span>
@@ -488,36 +493,6 @@ export function AdminDashboard({
                       updateContent((p) => ({
                         ...p,
                         meta: { ...p.meta, email: e.target.value },
-                      }))
-                    }
-                    className="rounded-xl border border-hairline-strong bg-bench/50 px-3 py-2.5 font-mono text-sm font-normal"
-                  />
-                </label>
-
-                <label className="flex flex-col gap-1.5 text-xs font-medium text-ink">
-                  University
-                  <input
-                    type="text"
-                    value={content.meta.university}
-                    onChange={(e) =>
-                      updateContent((p) => ({
-                        ...p,
-                        meta: { ...p.meta, university: e.target.value },
-                      }))
-                    }
-                    className="rounded-xl border border-hairline-strong bg-bench/50 px-3 py-2.5 text-sm font-normal"
-                  />
-                </label>
-
-                <label className="flex flex-col gap-1.5 text-xs font-medium text-ink">
-                  GPA / IPK
-                  <input
-                    type="text"
-                    value={content.meta.gpa}
-                    onChange={(e) =>
-                      updateContent((p) => ({
-                        ...p,
-                        meta: { ...p.meta, gpa: e.target.value },
                       }))
                     }
                     className="rounded-xl border border-hairline-strong bg-bench/50 px-3 py-2.5 font-mono text-sm font-normal"
@@ -1253,151 +1228,9 @@ export function AdminDashboard({
           </div>
         ) : null}
 
-        {/* TAB 5: TIMELINE & CERTIFICATIONS */}
+        {/* TAB 5: TIMELINE */}
         {tab === "timeline-certs" ? (
           <div className="space-y-6">
-            <div className="rounded-2xl border border-hairline bg-plate p-6">
-              <div className="flex items-center justify-between border-b border-hairline pb-4">
-                <h2 className="font-display text-lg font-semibold text-ink">
-                  Verified Certifications ({content.certifications.length})
-                </h2>
-                <button
-                  type="button"
-                  onClick={() =>
-                    updateContent((p) => ({
-                      ...p,
-                      certifications: [
-                        ...p.certifications,
-                        {
-                          id: `cert-${Date.now()}`,
-                          title: "New Certification",
-                          issuer: "Issuer",
-                          issued: "2026",
-                          credentialUrl: "https://",
-                          focus: ["AI"],
-                        },
-                      ],
-                    }))
-                  }
-                  className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-1.5 text-xs font-medium text-plate hover:bg-accent"
-                >
-                  <Plus size={14} />
-                  <span>Tambah Sertifikasi</span>
-                </button>
-              </div>
-
-              <div className="mt-4 space-y-4">
-                {content.certifications.map((cert, idx) => (
-                  <div
-                    key={cert.id}
-                    className="grid grid-cols-1 gap-3 rounded-xl border border-hairline bg-bench/60 p-4 sm:grid-cols-4"
-                  >
-                    <label className="flex flex-col gap-1 text-xs font-medium sm:col-span-2">
-                      Title
-                      <input
-                        type="text"
-                        value={cert.title}
-                        onChange={(e) =>
-                          updateContent((p) => ({
-                            ...p,
-                            certifications: p.certifications.map((c, i) =>
-                              i === idx ? { ...c, title: e.target.value } : c
-                            ),
-                          }))
-                        }
-                        className="rounded-lg border border-hairline-strong bg-plate px-3 py-2 text-xs font-normal"
-                      />
-                    </label>
-                    <label className="flex flex-col gap-1 text-xs font-medium">
-                      Issuer
-                      <input
-                        type="text"
-                        value={cert.issuer}
-                        onChange={(e) =>
-                          updateContent((p) => ({
-                            ...p,
-                            certifications: p.certifications.map((c, i) =>
-                              i === idx ? { ...c, issuer: e.target.value } : c
-                            ),
-                          }))
-                        }
-                        className="rounded-lg border border-hairline-strong bg-plate px-3 py-2 text-xs font-normal"
-                      />
-                    </label>
-                    <label className="flex flex-col gap-1 text-xs font-medium">
-                      Issued Date
-                      <input
-                        type="text"
-                        value={cert.issued}
-                        onChange={(e) =>
-                          updateContent((p) => ({
-                            ...p,
-                            certifications: p.certifications.map((c, i) =>
-                              i === idx ? { ...c, issued: e.target.value } : c
-                            ),
-                          }))
-                        }
-                        className="rounded-lg border border-hairline-strong bg-plate px-3 py-2 font-mono text-xs font-normal"
-                      />
-                    </label>
-                    <label className="flex flex-col gap-1 text-xs font-medium sm:col-span-2">
-                      Credential URL
-                      <input
-                        type="url"
-                        value={cert.credentialUrl}
-                        onChange={(e) =>
-                          updateContent((p) => ({
-                            ...p,
-                            certifications: p.certifications.map((c, i) =>
-                              i === idx
-                                ? { ...c, credentialUrl: e.target.value }
-                                : c
-                            ),
-                          }))
-                        }
-                        className="rounded-lg border border-hairline-strong bg-plate px-3 py-2 font-mono text-xs font-normal"
-                      />
-                    </label>
-                    <label className="flex flex-col gap-1 text-xs font-medium">
-                      Topics (koma)
-                      <input
-                        type="text"
-                        value={joinTags(cert.focus)}
-                        onChange={(e) =>
-                          updateContent((p) => ({
-                            ...p,
-                            certifications: p.certifications.map((c, i) =>
-                              i === idx
-                                ? { ...c, focus: splitTags(e.target.value) }
-                                : c
-                            ),
-                          }))
-                        }
-                        className="rounded-lg border border-hairline-strong bg-plate px-3 py-2 font-mono text-xs font-normal"
-                      />
-                    </label>
-                    <div className="flex items-end justify-end">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateContent((p) => ({
-                            ...p,
-                            certifications: p.certifications.filter(
-                              (_, i) => i !== idx
-                            ),
-                          }))
-                        }
-                        className="inline-flex h-9 items-center gap-1 rounded-lg border border-red-900/70 px-3 text-xs text-red-400 hover:bg-red-950/50"
-                      >
-                        <Trash size={13} />
-                        <span>Hapus</span>
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             <div className="rounded-2xl border border-hairline bg-plate p-6">
               <div className="flex items-center justify-between border-b border-hairline pb-4">
                 <h2 className="font-display text-lg font-semibold text-ink">

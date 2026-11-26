@@ -23,7 +23,7 @@ export const SITE_TITLE_DEFAULT =
 export const SITE_TITLE_TEMPLATE = "%s | Vedora";
 
 export const SITE_DESCRIPTION =
-  "Portfolio of Fathir Rizki Fadillah (Vedora), Lead at MAUNC IoT Community and Oracle Certified Generative AI Professional building applied AI, computer vision, and IoT systems.";
+  "Portfolio of Fathir Rizki Fadillah (Vedora), Lead at MAUNC IoT Community building applied AI, on-device computer vision, federated learning, and IoT hardware systems.";
 
 export const SITE_KEYWORDS = [
   "Fathir Rizki Fadillah",

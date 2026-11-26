@@ -70,12 +70,12 @@ export const PROFILE_META = {
     en: "Tasikmalaya & Bekasi, Indonesia",
     id: "Tasikmalaya & Bekasi, Indonesia",
   },
-  university: "Universitas Siliwangi",
+  university: "",
   major: {
-    en: "B.S. in Informatics",
-    id: "S1 Informatika",
+    en: "AI & IoT Systems",
+    id: "Sistem AI & IoT",
   },
-  gpa: "3.70",
+  gpa: "",
   motto: "Learn continuously. Build thoughtfully. Validate with evidence.",
 } as const;
 
@@ -97,8 +97,8 @@ export const UI_COPY = {
       id: "Fathir Rizki Fadillah membangun sistem AI hingga ke perangkat fisik.",
     },
     intro: {
-      en: "Known online as Vedora. Oracle Certified Generative AI Professional and Lead of the MAUNC IoT Community, focused on LLMs, machine learning, on-device computer vision, and AI-driven hardware ecosystems.",
-      id: "Dikenal dengan nama Vedora. Oracle Certified Generative AI Professional dan Ketua Komunitas IoT MAUNC dengan fokus pada LLM, machine learning, computer vision on-device, serta ekosistem hardware berbasis AI.",
+      en: "Known online as Vedora. Lead of the MAUNC IoT Community focused on applied AI, LLMs, machine learning, on-device computer vision, and intelligent hardware ecosystems.",
+      id: "Dikenal dengan nama Vedora. Ketua Komunitas IoT MAUNC dengan fokus pada AI terapan, LLM, machine learning, computer vision on-device, serta ekosistem hardware cerdas.",
     },
     primaryCta: {
       en: "Explore selected work",
@@ -169,13 +169,13 @@ export const UI_COPY = {
       id: "Tempat kecerdasan model bertemu sinyal fisik",
     },
     lead: {
-      en: "Most AI demos stop inside notebooks. My work tracks the full stack: statistical validation, reproducible training pipelines, API automation with n8n, browser-side inference, and embedded Arduino control loops.",
-      id: "Banyak demo AI berhenti di notebook. Pendekatan saya mencakup siklus penuh: validasi statistik, pipeline pelatihan yang reproducible, otomasi API dengan n8n, inferensi langsung di browser, sampai kontrol embedded Arduino.",
+      en: "Most AI demos stop inside notebooks. My work tracks the full stack: statistical validation, reproducible training pipelines, clean backend services, browser-side inference, and embedded Arduino control loops.",
+      id: "Banyak demo AI berhenti di notebook. Pendekatan saya mencakup siklus penuh: validasi statistik, pipeline pelatihan yang reproducible, layanan backend rapi, inferensi langsung di browser, sampai kontrol embedded Arduino.",
     },
     stats: [
       { label: { en: "Public repositories", id: "Repositori publik" }, value: "28" },
       { label: { en: "Shipped systems", id: "Sistem dirilis" }, value: "10" },
-      { label: { en: "Verified certs", id: "Sertifikasi resmi" }, value: "3" },
+      { label: { en: "Active languages", id: "Bahasa aktif" }, value: "7" },
     ],
   },
   timeline: {
@@ -317,8 +317,8 @@ export const PROJECTS: ProjectItem[] = [
       id: "Google MediaPipe Hand Landmarker mengekstrak 21 koordinat tangan 3D langsung di browser dengan dekoder posisi jari kustom dan kontrol kalkulasi stabil.",
     },
     outcome: {
-      en: "Deployed as an instant web demo for Universitas Siliwangi robotics community outreach with zero external inference server cost.",
-      id: "Dirilis sebagai demo web instan untuk pameran komunitas robotika Universitas Siliwangi tanpa server inferensi eksternal.",
+      en: "Deployed as an instant web demo for MAUNC robotics community outreach with zero external inference server cost.",
+      id: "Dirilis sebagai demo web instan untuk pameran komunitas robotika MAUNC tanpa server inferensi eksternal.",
     },
     metrics: [
       { label: { en: "Tracked landmarks", id: "Titik tangan" }, value: "21 3D pts" },
@@ -339,8 +339,8 @@ export const PROJECTS: ProjectItem[] = [
     category: "vision",
     year: "2026",
     summary: {
-      en: "On-device browser vision experience branded for MAUNC Universitas Siliwangi featuring real-time expression detection for up to 3 faces and a 2-player webcam battle.",
-      id: "Website Computer Vision on-device beridentitas resmi MAUNC Universitas Siliwangi dengan pemindai ekspresi hingga 3 wajah dan mode 2 pemain dalam 1 webcam terbagi.",
+      en: "On-device browser vision experience branded for the MAUNC IoT Community featuring real-time expression detection for up to 3 faces and a 2-player webcam battle.",
+      id: "Website Computer Vision on-device beridentitas resmi Komunitas IoT MAUNC dengan pemindai ekspresi hingga 3 wajah dan mode 2 pemain dalam 1 webcam terbagi.",
     },
     problem: {
       en: "Live multi-person facial inference over cloud APIs introduces bandwidth bottlenecks and privacy friction during public demonstrations.",
@@ -385,8 +385,8 @@ export const PROJECTS: ProjectItem[] = [
       id: "Sketch C++ Arduino modular (`smart_trash`, `deteksi_benda`, `traffic_light_one_version`) dengan pemetaan pin rapi dan transisi state berbasis ambang sensor.",
     },
     outcome: {
-      en: "Forms the hardware foundation used alongside MAUNC IoT Community workshops at Universitas Siliwangi.",
-      id: "Menjadi fondasi eksperimen hardware yang sejalan dengan kegiatan Komunitas IoT MAUNC Universitas Siliwangi.",
+      en: "Forms the hardware foundation used alongside MAUNC IoT Community prototyping workshops.",
+      id: "Menjadi fondasi eksperimen hardware yang sejalan dengan kegiatan workshop Komunitas IoT MAUNC.",
     },
     metrics: [
       { label: { en: "Modules", id: "Modul sketsa" }, value: "5 prototypes" },
@@ -543,8 +543,8 @@ export const PROJECTS: ProjectItem[] = [
       id: "Aplikasi NLP di Streamlit yang membaca CV PDF/TXT, memprediksi 3 bidang pekerjaan teratas beserta grafik probabilitas, dan menyarankan keahlian tambahan.",
     },
     problem: {
-      en: "Students and early-career applicants rarely get fast, objective feedback on how their resume aligns with target industry roles.",
-      id: "Mahasiswa dan pelamar pemula jarang mendapatkan umpan balik cepat yang objektif mengenai kesesuaian CV terhadap posisi target.",
+      en: "Job seekers and early-career engineers rarely get fast, objective feedback on how their resume aligns with target industry roles.",
+      id: "Pelamar dan engineer pemula jarang mendapatkan umpan balik cepat yang objektif mengenai kesesuaian CV terhadap posisi target.",
     },
     architecture: {
       en: "Scikit-learn TF-IDF vectorization + Logistic Regression classifier with automated CSV telemetry logging and Streamlit Cloud deployment.",
@@ -628,13 +628,12 @@ export const CAPABILITIES: CapabilityBand[] = [
       id: "IoT Hardware, Otomasi & Infrastruktur",
     },
     summary: {
-      en: "Connecting embedded Arduino sensor loops and API-driven n8n automation with maintainable TypeScript, Node.js, PostgreSQL, and Docker infrastructure.",
-      id: "Menghubungkan loop sensor Arduino dan otomasi API n8n dengan backend TypeScript, Node.js, PostgreSQL, Docker, dan Nginx yang rapi.",
+      en: "Connecting embedded Arduino sensor loops and real-time device telemetry with maintainable TypeScript, Node.js, PostgreSQL, and Docker infrastructure.",
+      id: "Menghubungkan loop sensor Arduino dan telemetri perangkat real-time dengan backend TypeScript, Node.js, PostgreSQL, Docker, dan Nginx yang rapi.",
     },
     tools: [
       "Arduino",
       "C / C++",
-      "n8n Automation",
       "TypeScript",
       "Node.js",
       "PostgreSQL",
@@ -720,10 +719,10 @@ export const EDUCATION_AND_ROOTS: ExperienceItem[] = [
     location: "Remote & On-Device",
     type: "engineering",
     description: {
-      en: "Researching and shipping end-to-end systems spanning federated learning, local RAG pipelines, real-time MediaPipe computer vision, n8n workflow automation, and Arduino hardware builds.",
-      id: "Meriset dan merilis sistem end-to-end mulai dari federated learning, pipeline RAG lokal, computer vision real-time MediaPipe, otomasi n8n, hingga perangkat Arduino.",
+      en: "Researching and shipping end-to-end systems spanning federated learning, local RAG pipelines, real-time MediaPipe computer vision, and Arduino hardware builds.",
+      id: "Meriset dan merilis sistem end-to-end mulai dari federated learning, pipeline RAG lokal, computer vision real-time MediaPipe, hingga perangkat Arduino.",
     },
-    skills: ["PyTorch", "Flower FL", "MediaPipe", "n8n", "Arduino"],
+    skills: ["PyTorch", "Flower FL", "MediaPipe", "TypeScript", "Arduino"],
   },
   {
     id: "sma-daya-utama",
@@ -746,32 +745,4 @@ export const EDUCATION_AND_ROOTS: ExperienceItem[] = [
   },
 ];
 
-export const CERTIFICATIONS: CertificationItem[] = [
-  {
-    id: "oci-genai-pro",
-    title: "Oracle Cloud Infrastructure Generative AI Professional",
-    issuer: "Oracle",
-    issued: "Sep 2025",
-    credentialUrl:
-      "https://catalog-education.oracle.com/pls/certview/sharebadge?id=D0764A548D26D513F5B501799832058A71ACDDA997899AD9A603C568ED685FCB",
-    focus: ["Generative AI", "LLMs", "RAG Architecture"],
-  },
-  {
-    id: "oci-ai-foundations",
-    title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
-    issuer: "Oracle",
-    issued: "Aug 2025",
-    credentialUrl:
-      "https://catalog-education.oracle.com/pls/certview/sharebadge?id=E807352F7B8BF5CB6BD95A56BACD9A2397F31D6F6259B4112BC69F3036163C6",
-    focus: ["AI Foundations", "Deep Learning", "PyTorch", "Scikit-learn"],
-  },
-  {
-    id: "dicoding-ai",
-    title: "Belajar Dasar AI",
-    issuer: "Dicoding Indonesia",
-    issued: "Feb 2025 — Feb 2028",
-    credentialId: "NVP7578MVXR0",
-    credentialUrl: "https://www.dicoding.com/certificates/NVP7578MVXR0",
-    focus: ["AI Fundamentals", "Machine Learning Concepts"],
-  },
-];
+export const CERTIFICATIONS: CertificationItem[] = [];

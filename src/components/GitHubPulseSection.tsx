@@ -59,7 +59,7 @@ export function GitHubPulseSection({
   return (
     <section
       aria-label="GitHub engineering telemetry and interactive bench"
-      className="relative z-10 rounded-t-[24px] border-t border-hairline bg-plate py-16 sm:py-22"
+      className="relative z-10 rounded-t-[24px] border-t border-hairline bg-plate pt-20 pb-16 sm:pt-24 sm:pb-22"
     >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         {/* Top Row: Large HD GitHub Banner + 4-Mode Interactive Engineering Sandbox */}

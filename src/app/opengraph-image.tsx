@@ -84,7 +84,7 @@ export default function OpenGraphImage() {
             }}
           >
             Generative AI, Machine Learning, On-Device Computer Vision, and IoT
-            prototyping. Oracle Certified Generative AI Professional.
+            hardware prototyping. Lead at MAUNC IoT Community.
           </div>
         </div>
 

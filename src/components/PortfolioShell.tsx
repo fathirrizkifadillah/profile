@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import {
   ArrowDownRight,
   ArrowUpRight,
-  Certificate,
   EnvelopeSimple,
   LockSimple,
   MapPin,
@@ -53,10 +52,10 @@ function InlineSpecList({ items }: { items: string[] }) {
 }
 
 /**
- * Strips university/GPA mentions from cached Redis copy if older content is loaded.
+ * Strips legacy university/GPA/certificate/n8n mentions if cached Redis JSON still contains them.
  */
-function sanitizeCampusText(text: string, fallback: string): string {
-  if (/universitas siliwangi|gpa|ipk/i.test(text)) {
+function sanitizeLegacyCopy(text: string, fallback: string): string {
+  if (/universitas siliwangi|gpa|ipk|oracle|dicoding|\bn8n\b/i.test(text)) {
     return fallback;
   }
   return text;
@@ -71,16 +70,46 @@ export function PortfolioShell({ content, telemetry }: PortfolioShellProps) {
 
   const emailHref = `mailto:${content.meta.email}`;
 
-  const heroStatus = sanitizeCampusText(
+  const heroStatus = sanitizeLegacyCopy(
     content.hero.status[locale],
     UI_COPY.hero.status[locale]
   );
-  const heroIntro = sanitizeCampusText(
+  const heroIntro = sanitizeLegacyCopy(
     content.hero.intro[locale],
     UI_COPY.hero.intro[locale]
   );
 
-  // Filter out legacy university/GPA education rows if still present in cached Redis JSON
+  // Sanitize legacy n8n / campus items from cached Redis JSON
+  const cleanedFocus = content.currentFocus.map((track) => ({
+    ...track,
+    text: {
+      en: /\bn8n\b/i.test(track.text.en)
+        ? "Shipping practical AI applications backed by clean APIs and reproducible infrastructure."
+        : track.text.en,
+      id: /\bn8n\b/i.test(track.text.id)
+        ? "Merilis aplikasi AI praktis yang didukung API bersih dan infrastruktur yang rapi."
+        : track.text.id,
+    },
+  }));
+
+  const cleanedStackGroups = content.stackGroups.map((group) => ({
+    ...group,
+    label: {
+      en: group.label.en.replace(/,?\s*Automation/i, ""),
+      id: group.label.id.replace(/,?\s*Otomasi/i, ""),
+    },
+    items: group.items.filter((item) => !/\bn8n\b/i.test(item)),
+  }));
+
+  const cleanedCapabilities = content.capabilities.map((band) => ({
+    ...band,
+    summary: {
+      en: band.summary.en.replace(/and API-driven n8n automation/gi, "and real-time device telemetry"),
+      id: band.summary.id.replace(/dan otomasi API n8n/gi, "dan telemetri perangkat real-time"),
+    },
+    tools: band.tools.filter((tool) => !/\bn8n\b/i.test(tool)),
+  }));
+
   const filteredExperiences = content.experiences.map((item) => ({
     ...item,
     organization: /universitas siliwangi/i.test(item.organization)
@@ -88,15 +117,28 @@ export function PortfolioShell({ content, telemetry }: PortfolioShellProps) {
         ? "MAUNC IoT Community"
         : "Applied Systems Team"
       : item.organization,
+    description: {
+      en: item.description.en.replace(/\s*at Universitas Siliwangi/gi, ""),
+      id: item.description.id.replace(/\s*Universitas Siliwangi/gi, ""),
+    },
   }));
 
-  const filteredFoundations = content.education.filter(
-    (item) =>
-      !/unsil-informatics/i.test(item.id) &&
-      !/gpa|ipk|universitas siliwangi/i.test(
-        `${item.role.en} ${item.organization}`
-      )
-  );
+  const filteredFoundations = content.education
+    .filter(
+      (item) =>
+        !/unsil-informatics/i.test(item.id) &&
+        !/gpa|ipk|universitas siliwangi/i.test(
+          `${item.role.en} ${item.organization}`
+        )
+    )
+    .map((item) => ({
+      ...item,
+      description: {
+        en: item.description.en.replace(/,?\s*n8n workflow automation/gi, ""),
+        id: item.description.id.replace(/,?\s*otomasi n8n/gi, ""),
+      },
+      skills: item.skills.filter((s) => !/\bn8n\b/i.test(s)),
+    }));
 
   const socialLinks: Array<{
     platform: SocialPlatform;
@@ -328,12 +370,12 @@ export function PortfolioShell({ content, telemetry }: PortfolioShellProps) {
 
                     <div>
                       <dt className="font-mono text-[11px] text-ink-muted">
-                        Oracle Cloud
+                        {locale === "en" ? "Focus" : "Fokus"}
                       </dt>
                       <dd className="mt-1 font-display text-xl font-semibold text-ink">
-                        GenAI{" "}
+                        AI{" "}
                         <span className="font-mono text-xs font-semibold text-accent">
-                          Pro
+                          + IoT
                         </span>
                       </dd>
                     </div>
@@ -442,8 +484,8 @@ export function PortfolioShell({ content, telemetry }: PortfolioShellProps) {
               <GitHubPulseSection
                 locale={locale}
                 telemetry={telemetry}
-                currentFocus={content.currentFocus}
-                stackGroups={content.stackGroups}
+                currentFocus={cleanedFocus}
+                stackGroups={cleanedStackGroups}
                 githubUrl={content.meta.links.github}
                 alias={content.meta.alias}
                 showBanner={content.meta.showBanner}
@@ -495,7 +537,7 @@ export function PortfolioShell({ content, telemetry }: PortfolioShellProps) {
                       </div>
                       <div>
                         <div className="text-xl font-bold text-accent">
-                          <CountUp to={content.certifications.length} />
+                          <CountUp to={telemetry.languages.length} />
                         </div>
                         <div className="mt-1 font-sans text-xs text-ink-muted">
                           {UI_COPY.systems.stats[2].label[locale]}
@@ -509,7 +551,7 @@ export function PortfolioShell({ content, telemetry }: PortfolioShellProps) {
                   </motion.div>
 
                   <div className="divide-y divide-hairline border-t border-b border-hairline lg:col-span-8">
-                    {content.capabilities.map((band, idx) => (
+                    {cleanedCapabilities.map((band, idx) => (
                       <motion.div
                         key={band.id}
                         initial={{ opacity: 0, y: 10 }}
@@ -656,93 +698,6 @@ export function PortfolioShell({ content, telemetry }: PortfolioShellProps) {
                       ))}
                     </ol>
                   </div>
-                </div>
-              </div>
-            </section>
-
-            {/* VERIFIED CREDENTIALS */}
-            <section
-              id="credentials"
-              data-rise-section
-              className="relative z-20 scroll-mt-28 border-t border-hairline bg-plate py-20 sm:py-24"
-            >
-              <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-                  <div>
-                    <h2 className="font-display text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
-                      {UI_COPY.credentials.heading[locale]}
-                    </h2>
-                    <p className="mt-2.5 max-w-[54ch] text-base text-ink-secondary">
-                      {UI_COPY.credentials.subtitle[locale]}
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center gap-2 font-mono text-xs text-accent">
-                    <Certificate size={16} weight="bold" />
-                    <span>Oracle &amp; Dicoding Verified</span>
-                  </div>
-                </div>
-
-                <div className="mt-10 divide-y divide-hairline border-t border-b border-hairline">
-                  {content.certifications.map((cert) => (
-                    <motion.div
-                      key={cert.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.2 }}
-                      transition={{ duration: 0.36, ease: [0.23, 1, 0.32, 1] }}
-                      className="grid grid-cols-1 gap-4 py-6 md:grid-cols-12 md:items-center"
-                    >
-                      <div className="md:col-span-6">
-                        <h3 className="font-display text-lg font-semibold text-ink">
-                          {cert.title}
-                        </h3>
-                        <div className="mt-1 flex flex-wrap items-center gap-x-2 text-sm text-ink-secondary">
-                          <span className="font-semibold text-ink-silver">
-                            {cert.issuer}
-                          </span>
-                          <span aria-hidden="true" className="text-ink-muted">
-                            /
-                          </span>
-                          <span className="font-mono text-xs text-ink-muted">
-                            {cert.issued}
-                          </span>
-                          {cert.credentialId ? (
-                            <>
-                              <span
-                                aria-hidden="true"
-                                className="text-ink-muted"
-                              >
-                                /
-                              </span>
-                              <span className="font-mono text-xs text-ink-muted">
-                                ID {cert.credentialId}
-                              </span>
-                            </>
-                          ) : null}
-                        </div>
-                      </div>
-
-                      <div className="md:col-span-4">
-                        <InlineSpecList items={cert.focus} />
-                      </div>
-
-                      <div className="md:col-span-2 md:flex md:justify-end">
-                        <a
-                          href={cert.credentialUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group inline-flex min-h-[40px] items-center gap-1.5 rounded-[10px] bg-accent px-4 py-1.5 text-xs font-bold text-bench transition-[background-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-accent-hover active:scale-[0.97]"
-                        >
-                          <span>{UI_COPY.credentials.verifyAction[locale]}</span>
-                          <ArrowUpRight
-                            size={14}
-                            weight="bold"
-                            className="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                          />
-                        </a>
-                      </div>
-                    </motion.div>
-                  ))}
                 </div>
               </div>
             </section>

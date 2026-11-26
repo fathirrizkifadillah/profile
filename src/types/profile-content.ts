@@ -116,8 +116,8 @@ export const DEFAULT_PROFILE_CONTENT: ProfileContent = {
     {
       id: "focus-3",
       text: {
-        en: "Shipping practical AI applications paired with n8n automation and clean infrastructure.",
-        id: "Merilis aplikasi AI praktis yang terhubung dengan otomasi n8n dan infrastruktur rapi.",
+        en: "Shipping practical AI applications backed by clean APIs and reproducible infrastructure.",
+        id: "Merilis aplikasi AI praktis yang didukung API bersih dan infrastruktur yang rapi.",
       },
     },
     {
@@ -141,8 +141,8 @@ export const DEFAULT_PROFILE_CONTENT: ProfileContent = {
     },
     {
       id: "backend-infra",
-      label: { en: "Backend, Automation & Infra", id: "Backend, Otomasi & Infra" },
-      items: ["Node.js", "PostgreSQL", "Docker", "Nginx", "n8n", "Streamlit", "Next.js", "Vercel"],
+      label: { en: "Backend & Infrastructure", id: "Backend & Infrastruktur" },
+      items: ["Node.js", "PostgreSQL", "Docker", "Nginx", "Streamlit", "Next.js", "Vercel"],
     },
     {
       id: "cv-hardware",

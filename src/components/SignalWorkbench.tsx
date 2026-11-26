@@ -28,10 +28,16 @@ interface SignalWorkbenchProps {
   publicRepos?: number;
 }
 
+interface CliLine {
+  text: string;
+  tone?: "default" | "accent" | "muted" | "bright";
+  runCommand?: string;
+}
+
 interface CliEntry {
   id: number;
   command?: string;
-  lines: Array<{ text: string; tone?: "default" | "accent" | "muted" | "bright" }>;
+  lines: CliLine[];
 }
 
 const PHISGUARD_PRESETS = [
@@ -204,13 +210,54 @@ export function SignalWorkbench({
           id,
           command: trimmed,
           lines: [
-            { text: "vedora --status        profile & telemetry summary", tone: "bright" },
-            { text: "vedora scan <url>      run PhisGuard heuristic engine", tone: "bright" },
-            { text: "vedora projects        list featured AI & IoT builds", tone: "bright" },
-            { text: "vedora theme           print midnight-monochrome tokens", tone: "bright" },
-            { text: "vedora open <tab>      jump to radar | fl | phisguard", tone: "bright" },
-            { text: "vedora contact         direct email & handles", tone: "bright" },
-            { text: "clear                  clear terminal buffer", tone: "muted" },
+            {
+              text:
+                locale === "en"
+                  ? "EXAMPLES (click any command to run immediately):"
+                  : "CONTOH PERINTAH (klik perintah mana saja untuk langsung jalan):",
+              tone: "accent",
+            },
+            {
+              text: "  $ vedora --status",
+              tone: "bright",
+              runCommand: "vedora --status",
+            },
+            {
+              text: "    -> ringkasan profil, MAUNC IoT Lead & repo GitHub",
+              tone: "muted",
+            },
+            {
+              text: "  $ vedora scan http://paypa1-secure-verify.xyz/login",
+              tone: "bright",
+              runCommand: "vedora scan http://paypa1-secure-verify.xyz/login",
+            },
+            {
+              text: "    -> scan URL apa saja pakai mesin PhisGuard",
+              tone: "muted",
+            },
+            {
+              text: "  $ vedora open radar   (atau: fl | phisguard)",
+              tone: "bright",
+              runCommand: "vedora open radar",
+            },
+            {
+              text: "    -> pindah langsung ke tab lab interaktif",
+              tone: "muted",
+            },
+            {
+              text: "  $ vedora projects",
+              tone: "bright",
+              runCommand: "vedora projects",
+            },
+            {
+              text: "    -> daftar proyek utama AI, Vision & IoT",
+              tone: "muted",
+            },
+            {
+              text: "  $ vedora theme   |   $ vedora contact   |   $ clear",
+              tone: "bright",
+              runCommand: "vedora theme",
+            },
           ],
         },
       ]);
@@ -226,7 +273,7 @@ export function SignalWorkbench({
           lines: [
             { text: "IDENTITY   Fathir Rizki Fadillah (Vedora)", tone: "bright" },
             { text: "ROLE       Lead — MAUNC IoT & Robotics Community", tone: "accent" },
-            { text: "CERT       Oracle OCI Generative AI Professional", tone: "default" },
+            { text: "FOCUS      Applied AI / Edge Vision / Federated FL / IoT", tone: "default" },
             { text: `TELEMETRY  ${publicRepos} public repos / 0-byte FL leakage`, tone: "muted" },
           ],
         },
@@ -882,7 +929,7 @@ export function SignalWorkbench({
                 onChange={(e) => setScanUrl(e.target.value)}
                 aria-label="Test URL in PhisGuard heuristic scanner"
                 placeholder="Paste or type any URL to inspect..."
-                className="min-h-[38px] w-full rounded-[8px] border border-hairline-strong bg-bench px-3 font-mono text-xs text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none"
+                className="min-h-[38px] w-full rounded-[8px] border border-hairline-strong bg-bench px-3 font-mono text-xs text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none focus-visible:outline-none"
               />
 
               {/* Score Header & Segmented Risk Meter */}
@@ -952,10 +999,11 @@ export function SignalWorkbench({
                 </span>
                 <div className="flex flex-wrap items-center gap-1">
                   {[
+                    { label: "help", cmd: "help" },
                     { label: "status", cmd: "vedora --status" },
                     { label: "scan", cmd: "vedora scan http://paypa1-secure-verify.xyz/login" },
                     { label: "projects", cmd: "vedora projects" },
-                    { label: "theme", cmd: "vedora theme" },
+                    { label: "clear", cmd: "clear" },
                   ].map((quick) => (
                     <button
                       key={quick.label}
@@ -974,38 +1022,59 @@ export function SignalWorkbench({
                 data-lenis-prevent
                 className="h-[192px] overflow-y-auto rounded-[9px] border border-hairline bg-bench p-3 font-mono text-[11px] leading-relaxed"
               >
-                {cliEntries.map((entry) => (
-                  <div key={entry.id} className="mb-2.5 last:mb-0">
-                    {entry.command ? (
-                      <div className="text-ink-silver">
-                        <span className="text-accent">$</span> {entry.command}
-                      </div>
-                    ) : null}
-                    <div className="mt-0.5 space-y-0.5">
-                      {entry.lines.map((line, i) => (
-                        <div
-                          key={`${entry.id}-${i}`}
-                          className={
+                {cliEntries.length === 0 ? (
+                  <p className="text-ink-muted">
+                    {locale === "en"
+                      ? "Terminal cleared. Type 'help' or click a command above to run examples."
+                      : "Terminal dibersihkan. Ketik 'help' atau klik tombol perintah di atas."}
+                  </p>
+                ) : (
+                  cliEntries.map((entry) => (
+                    <div key={entry.id} className="mb-2.5 last:mb-0">
+                      {entry.command ? (
+                        <div className="text-ink-silver">
+                          <span className="text-accent">$</span> {entry.command}
+                        </div>
+                      ) : null}
+                      <div className="mt-0.5 space-y-0.5">
+                        {entry.lines.map((line, i) => {
+                          const toneClass =
                             line.tone === "accent"
                               ? "text-accent"
                               : line.tone === "bright"
                                 ? "text-ink"
                                 : line.tone === "muted"
                                   ? "text-ink-muted"
-                                  : "text-ink-secondary"
+                                  : "text-ink-secondary";
+
+                          if (line.runCommand) {
+                            return (
+                              <button
+                                key={`${entry.id}-${i}`}
+                                type="button"
+                                onClick={() => executeCommand(line.runCommand!)}
+                                className={`block w-full cursor-pointer rounded-[4px] text-left transition-colors hover:bg-recess hover:text-accent ${toneClass}`}
+                              >
+                                {line.text}
+                              </button>
+                            );
                           }
-                        >
-                          {line.text}
-                        </div>
-                      ))}
+
+                          return (
+                            <div key={`${entry.id}-${i}`} className={toneClass}>
+                              {line.text}
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
 
               <form
                 onSubmit={handleCliSubmit}
-                className="flex items-center gap-2 rounded-[8px] border border-hairline-strong bg-bench px-3 focus-within:border-accent"
+                className="flex items-center gap-2 rounded-[8px] border border-hairline-strong bg-bench px-3 transition-colors duration-150 focus-within:border-accent"
               >
                 <span className="font-mono text-xs font-bold text-accent">
                   $
@@ -1015,9 +1084,9 @@ export function SignalWorkbench({
                   value={cliInput}
                   onChange={(e) => setCliInput(e.target.value)}
                   onKeyDown={handleCliKeyDown}
-                  placeholder="vedora --status | help (Tab to complete)"
+                  placeholder="help | vedora --status | vedora scan <url>"
                   aria-label="Vedora CLI command input"
-                  className="min-h-[38px] w-full bg-transparent font-mono text-xs text-ink placeholder:text-ink-muted focus:outline-none"
+                  className="min-h-[38px] w-full bg-transparent font-mono text-xs text-ink placeholder:text-ink-muted focus:outline-none focus-visible:outline-none"
                 />
                 <button
                   type="submit"

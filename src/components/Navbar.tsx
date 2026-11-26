@@ -14,7 +14,6 @@ const NAV_ITEMS = [
   { id: "work", key: "work" },
   { id: "systems", key: "systems" },
   { id: "timeline", key: "timeline" },
-  { id: "credentials", key: "credentials" },
   { id: "contact", key: "contact" },
 ] as const;
 
