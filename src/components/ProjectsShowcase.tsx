@@ -9,7 +9,6 @@ import {
   Globe,
 } from "@phosphor-icons/react";
 import {
-  PROJECTS,
   UI_COPY,
   type Locale,
   type ProjectCategory,
@@ -18,6 +17,7 @@ import {
 
 interface ProjectsShowcaseProps {
   locale: Locale;
+  projects: ProjectItem[];
 }
 
 const CATEGORIES: ProjectCategory[] = [
@@ -161,22 +161,25 @@ function ProjectRow({
   );
 }
 
-export function ProjectsShowcase({ locale }: ProjectsShowcaseProps) {
+export function ProjectsShowcase({ locale, projects }: ProjectsShowcaseProps) {
   const [category, setCategory] = useState<ProjectCategory>("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const filtered =
     category === "all"
-      ? PROJECTS
-      : PROJECTS.filter((item) => item.category === category);
+      ? projects
+      : projects.filter((item) => item.category === category);
 
-  const spotlight = filtered[0];
-  const rest = filtered.slice(1);
+  const spotlight =
+    filtered.find((item) => item.featured) ?? filtered[0] ?? null;
+  const rest = spotlight
+    ? filtered.filter((item) => item.id !== spotlight.id)
+    : [];
 
   return (
     <section
       id="work"
-      className="scroll-mt-28 border-t border-hairline py-24 sm:py-32"
+      className="scroll-mt-28 border-t border-hairline py-20 sm:py-28"
     >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6">
@@ -198,8 +201,8 @@ export function ProjectsShowcase({ locale }: ProjectsShowcaseProps) {
               const active = category === cat;
               const count =
                 cat === "all"
-                  ? PROJECTS.length
-                  : PROJECTS.filter((p) => p.category === cat).length;
+                  ? projects.length
+                  : projects.filter((p) => p.category === cat).length;
 
               return (
                 <button
@@ -233,7 +236,7 @@ export function ProjectsShowcase({ locale }: ProjectsShowcaseProps) {
 
         {/* Spotlight Double-Bezel Feature */}
         {spotlight ? (
-          <div className="mt-12 bezel-outer rounded-[28px] p-1.5 ring-1 ring-ink/[0.08]">
+          <div className="mt-10 bezel-outer rounded-[28px] p-1.5 ring-1 ring-ink/[0.08]">
             <div className="bezel-inner rounded-[22px] p-6 sm:p-8 lg:p-10">
               <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center">
                 <div className="lg:col-span-7">
@@ -318,7 +321,7 @@ export function ProjectsShowcase({ locale }: ProjectsShowcaseProps) {
                     <div className="mt-5 grid grid-cols-3 gap-2 border-t border-hairline pt-4 font-mono tabular-nums">
                       {spotlight.metrics.map((metric) => (
                         <div
-                          key={metric.value}
+                          key={`${metric.value}-${metric.label.en}`}
                           className="rounded-xl bg-plate px-3 py-2.5"
                         >
                           <div className="text-[10px] text-ink-muted">
@@ -336,7 +339,7 @@ export function ProjectsShowcase({ locale }: ProjectsShowcaseProps) {
             </div>
           </div>
         ) : (
-          <div className="mt-12 rounded-2xl border border-hairline bg-plate p-10 text-center">
+          <div className="mt-10 rounded-2xl border border-hairline bg-plate p-10 text-center">
             <p className="text-sm text-ink-secondary">
               {locale === "en"
                 ? "No projects match this domain filter."
@@ -347,7 +350,7 @@ export function ProjectsShowcase({ locale }: ProjectsShowcaseProps) {
 
         {/* Hairline Architectural Ledger for remaining builds */}
         {rest.length > 0 ? (
-          <div className="mt-12 divide-y divide-hairline border-t border-b border-hairline">
+          <div className="mt-10 divide-y divide-hairline border-t border-b border-hairline">
             {rest.map((project) => (
               <ProjectRow
                 key={project.id}
