@@ -77,7 +77,7 @@ export const DEFAULT_PROFILE_CONTENT: ProfileContent = {
     githubUsername: "fathirrizkifadillah",
     avatarUrl: "https://avatars.githubusercontent.com/u/182001014?v=4",
     bannerUrl:
-      "https://raw.githubusercontent.com/fathirrizkifadillah/fathirrizkifadillah/main/img/vedora_struggle.gif",
+      "https://raw.githubusercontent.com/fathirrizkifadillah/fathirrizkifadillah/main/img/vedora_struggle%20(2).gif",
     showBanner: true,
     showGitHubPulse: true,
     university: PROFILE_META.university,

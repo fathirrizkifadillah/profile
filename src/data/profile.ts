@@ -89,16 +89,16 @@ export const UI_COPY = {
   },
   hero: {
     status: {
-      en: "Lead at MAUNC IoT Community, Universitas Siliwangi",
-      id: "Lead di MAUNC Komunitas IoT, Universitas Siliwangi",
+      en: "Lead — MAUNC IoT & Robotics Community",
+      id: "Ketua — Komunitas IoT & Robotika MAUNC",
     },
     headline: {
       en: "Fathir Rizki Fadillah builds AI systems that reach physical hardware.",
       id: "Fathir Rizki Fadillah membangun sistem AI hingga ke perangkat fisik.",
     },
     intro: {
-      en: "Known online as Vedora. Informatics student at Universitas Siliwangi (GPA 3.70) and Oracle Certified Generative AI Professional focused on LLMs, machine learning, on-device computer vision, and AI-driven IoT ecosystems.",
-      id: "Dikenal dengan nama Vedora. Mahasiswa Informatika Universitas Siliwangi (IPK 3.70) dan Oracle Certified Generative AI Professional dengan fokus pada LLM, machine learning, computer vision on-device, serta ekosistem IoT berbasis AI.",
+      en: "Known online as Vedora. Oracle Certified Generative AI Professional and Lead of the MAUNC IoT Community, focused on LLMs, machine learning, on-device computer vision, and AI-driven hardware ecosystems.",
+      id: "Dikenal dengan nama Vedora. Oracle Certified Generative AI Professional dan Ketua Komunitas IoT MAUNC dengan fokus pada LLM, machine learning, computer vision on-device, serta ekosistem hardware berbasis AI.",
     },
     primaryCta: {
       en: "Explore selected work",
@@ -173,27 +173,27 @@ export const UI_COPY = {
       id: "Banyak demo AI berhenti di notebook. Pendekatan saya mencakup siklus penuh: validasi statistik, pipeline pelatihan yang reproducible, otomasi API dengan n8n, inferensi langsung di browser, sampai kontrol embedded Arduino.",
     },
     stats: [
-      { label: { en: "Public repositories", id: "Repositori publik" }, value: "27" },
-      { label: { en: "Informatics GPA", id: "IPK Informatika" }, value: "3.70" },
-      { label: { en: "Oracle AI certs", id: "Sertifikasi Oracle AI" }, value: "2x" },
+      { label: { en: "Public repositories", id: "Repositori publik" }, value: "28" },
+      { label: { en: "Shipped systems", id: "Sistem dirilis" }, value: "10" },
+      { label: { en: "Verified certs", id: "Sertifikasi resmi" }, value: "3" },
     ],
   },
   timeline: {
     heading: {
-      en: "Leadership, experience & education",
-      id: "Kepemimpinan, pengalaman & pendidikan",
+      en: "Leadership & engineering track",
+      id: "Kepemimpinan & perjalanan rekayasa",
     },
     subtitle: {
-      en: "Chronological record across campus IoT leadership, applied engineering projects, and Informatics coursework.",
-      id: "Rekam jejak kronologis dari kepemimpinan komunitas IoT kampus, proyek rekayasa terapan, hingga studi Informatika.",
+      en: "Chronological record across IoT community leadership, applied engineering projects, and technical foundations.",
+      id: "Rekam jejak kronologis dari kepemimpinan komunitas IoT, proyek rekayasa terapan, hingga fondasi organisasi.",
     },
     experienceCol: {
-      en: "Leadership & experience",
-      id: "Kepemimpinan & pengalaman",
+      en: "Leadership & engineering",
+      id: "Kepemimpinan & rekayasa",
     },
     educationCol: {
-      en: "Education & community foundations",
-      id: "Pendidikan & fondasi organisasi",
+      en: "Community & foundations",
+      id: "Komunitas & fondasi",
     },
   },
   credentials: {
@@ -649,10 +649,10 @@ export const EXPERIENCES: ExperienceItem[] = [
   {
     id: "maunc-lead",
     role: {
-      en: "Lead — MAUNC (IoT & Robotics Community)",
-      id: "Lead — MAUNC (Komunitas IoT Informatika)",
+      en: "Community Lead — MAUNC (IoT & Robotics)",
+      id: "Ketua Komunitas — MAUNC (IoT & Robotika)",
     },
-    organization: "Universitas Siliwangi",
+    organization: "MAUNC IoT Community",
     period: {
       en: "Jul 2026 — Present",
       id: "Jul 2026 — Sekarang",
@@ -660,8 +660,8 @@ export const EXPERIENCES: ExperienceItem[] = [
     location: "Tasikmalaya, Indonesia",
     type: "leadership",
     description: {
-      en: "Leading Mechanical Autonomous Navigation Control (MAUNC), the Informatics IoT and robotics community at Universitas Siliwangi. Driving hands-on Arduino prototyping, public technical showcases, and on-device computer vision demos.",
-      id: "Memimpin MAUNC (Komunitas IoT & robotika Informatika Universitas Siliwangi). Menggerakkan eksperimen hardware Arduino, pameran teknologi, serta demo computer vision on-device.",
+      en: "Leading Mechanical Autonomous Navigation Control (MAUNC), driving hands-on Arduino prototyping, public technical showcases, and on-device computer vision demos.",
+      id: "Memimpin Mechanical Autonomous Navigation Control (MAUNC), menggerakkan eksperimen hardware Arduino, pameran teknologi, serta demo computer vision on-device.",
     },
     skills: ["IoT Leadership", "Arduino", "Computer Vision", "Public Speaking"],
   },
@@ -671,7 +671,7 @@ export const EXPERIENCES: ExperienceItem[] = [
       en: "Project Leader — Systems Programming (C)",
       id: "Project Leader — Pemrograman Sistem (C)",
     },
-    organization: "Universitas Siliwangi",
+    organization: "Applied Systems Team",
     period: {
       en: "Nov 2024 — Dec 2024",
       id: "Nov 2024 — Des 2024",
@@ -707,23 +707,23 @@ export const EXPERIENCES: ExperienceItem[] = [
 
 export const EDUCATION_AND_ROOTS: ExperienceItem[] = [
   {
-    id: "unsil-informatics",
+    id: "independent-ai-research",
     role: {
-      en: "B.S. in Informatics (GPA 3.70)",
-      id: "S1 Informatika (IPK 3.70)",
+      en: "Independent Applied AI & Edge Vision Builder",
+      id: "Pengembang Independen AI Terapan & Edge Vision",
     },
-    organization: "Universitas Siliwangi",
+    organization: "Vedora Lab",
     period: {
-      en: "Jul 2024 — Aug 2028 (Expected)",
-      id: "Jul 2024 — Agu 2028 (Estimasi)",
+      en: "2024 — Present",
+      id: "2024 — Sekarang",
     },
-    location: "Tasikmalaya, West Java",
-    type: "academic",
+    location: "Remote & On-Device",
+    type: "engineering",
     description: {
-      en: "Coursework and applied research spanning machine learning, distributed systems, information security, computer graphics, and embedded IoT engineering.",
-      id: "Fokus studi dan riset terapan mencakup machine learning, sistem terdistribusi, keamanan informasi, grafika komputer, dan rekayasa IoT.",
+      en: "Researching and shipping end-to-end systems spanning federated learning, local RAG pipelines, real-time MediaPipe computer vision, n8n workflow automation, and Arduino hardware builds.",
+      id: "Meriset dan merilis sistem end-to-end mulai dari federated learning, pipeline RAG lokal, computer vision real-time MediaPipe, otomasi n8n, hingga perangkat Arduino.",
     },
-    skills: ["GPA 3.70", "Applied AI", "Arduino", "Systems"],
+    skills: ["PyTorch", "Flower FL", "MediaPipe", "n8n", "Arduino"],
   },
   {
     id: "sma-daya-utama",
@@ -739,8 +739,8 @@ export const EDUCATION_AND_ROOTS: ExperienceItem[] = [
     location: "Bekasi, West Java",
     type: "community",
     description: {
-      en: "Began exploring Artificial Intelligence during high school while building leadership, public speaking (speech competitions), and organizational coordination skills.",
-      id: "Memulai perjalanan di bidang Artificial Intelligence sejak SMA sambil mengasah kepemimpinan, komunikasi publik (lomba pidato), dan manajemen organisasi.",
+      en: "Began exploring Artificial Intelligence while building leadership, public speaking (speech competitions), and organizational coordination skills.",
+      id: "Memulai perjalanan di bidang Artificial Intelligence sambil mengasah kepemimpinan, komunikasi publik (lomba pidato), dan manajemen organisasi.",
     },
     skills: ["Leadership", "Public Speaking", "Organization"],
   },

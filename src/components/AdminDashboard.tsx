@@ -394,7 +394,7 @@ export function AdminDashboard({
             className={`mb-5 flex items-center gap-2.5 rounded-2xl border px-4 py-3 text-xs font-medium ${
               notice.type === "success"
                 ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                : "border-red-200 bg-red-50 text-red-700"
+                : "border-red-900/70 bg-red-950/50 text-red-300"
             }`}
           >
             {notice.type === "success" ? <Check size={16} weight="bold" /> : null}
@@ -867,7 +867,7 @@ export function AdminDashboard({
                         }))
                       }
                       aria-label="Delete project"
-                      className="flex h-8 w-8 items-center justify-center rounded-lg border border-red-200 text-red-600 hover:bg-red-50"
+                      className="flex h-8 w-8 items-center justify-center rounded-lg border border-red-900/70 text-red-400 hover:bg-red-950/50"
                     >
                       <Trash size={14} />
                     </button>
@@ -1387,7 +1387,7 @@ export function AdminDashboard({
                             ),
                           }))
                         }
-                        className="inline-flex h-9 items-center gap-1 rounded-lg border border-red-200 px-3 text-xs text-red-600 hover:bg-red-50"
+                        className="inline-flex h-9 items-center gap-1 rounded-lg border border-red-900/70 px-3 text-xs text-red-400 hover:bg-red-950/50"
                       >
                         <Trash size={13} />
                         <span>Hapus</span>
@@ -1523,7 +1523,7 @@ export function AdminDashboard({
                             experiences: p.experiences.filter((_, i) => i !== idx),
                           }))
                         }
-                        className="inline-flex h-9 items-center gap-1 rounded-lg border border-red-200 px-3 text-xs text-red-600 hover:bg-red-50"
+                        className="inline-flex h-9 items-center gap-1 rounded-lg border border-red-900/70 px-3 text-xs text-red-400 hover:bg-red-950/50"
                       >
                         <Trash size={13} />
                         <span>Hapus</span>
@@ -1610,7 +1610,7 @@ export function AdminDashboard({
                       text: "Konten dikembalikan ke default. Klik Save Changes untuk menyimpan.",
                     });
                   }}
-                  className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-red-200 px-4 text-xs font-medium text-red-600 hover:bg-red-50"
+                  className="inline-flex min-h-[42px] items-center gap-2 rounded-[10px] border border-red-900/70 px-4 text-xs font-medium text-red-400 hover:bg-red-950/50"
                 >
                   <span>Reset Default</span>
                 </button>

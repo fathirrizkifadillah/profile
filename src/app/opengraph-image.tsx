@@ -17,9 +17,9 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#F3EFE7",
+          backgroundColor: "#050505",
           padding: "56px 64px",
-          color: "#1A1917",
+          color: "#F5F5F5",
           fontFamily: "sans-serif",
         }}
       >
@@ -33,11 +33,12 @@ export default function OpenGraphImage() {
           <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
             <div
               style={{
-                width: "36px",
-                height: "36px",
+                width: "38px",
+                height: "38px",
                 borderRadius: "8px",
-                backgroundColor: "#1A1917",
-                color: "#FBF9F5",
+                backgroundColor: "#111111",
+                border: "1px solid #292929",
+                color: "#C8A96B",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -53,22 +54,12 @@ export default function OpenGraphImage() {
           </div>
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
               fontSize: "18px",
-              color: "#57524B",
+              color: "#C8A96B",
+              fontWeight: 600,
             }}
           >
-            <div
-              style={{
-                width: "8px",
-                height: "8px",
-                borderRadius: "999px",
-                backgroundColor: "#2F7D4F",
-              }}
-            />
-            <span>MAUNC IoT Lead · Universitas Siliwangi</span>
+            Lead — MAUNC IoT Community
           </div>
         </div>
 
@@ -87,7 +78,7 @@ export default function OpenGraphImage() {
           <div
             style={{
               fontSize: "24px",
-              color: "#57524B",
+              color: "#999999",
               maxWidth: "860px",
               lineHeight: 1.45,
             }}
@@ -102,14 +93,14 @@ export default function OpenGraphImage() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderTop: "1px solid rgba(26, 25, 23, 0.14)",
+            borderTop: "1px solid #292929",
             paddingTop: "24px",
             fontSize: "20px",
-            color: "#57524B",
+            color: "#999999",
           }}
         >
           <span>PyTorch / Flower FL / MediaPipe / Arduino / TypeScript</span>
-          <span style={{ color: "#B84A27", fontWeight: 600 }}>
+          <span style={{ color: "#C8A96B", fontWeight: 600 }}>
             fathirrf80@gmail.com
           </span>
         </div>

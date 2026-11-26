@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowUpRight,
   CaretDown,
-  GithubLogo,
   Globe,
 } from "@phosphor-icons/react";
 import {
@@ -14,6 +13,7 @@ import {
   type ProjectCategory,
   type ProjectItem,
 } from "@/data/profile";
+import { SocialIcon } from "./SocialIcons";
 import { SpotlightCard } from "./reactbits/SpotlightCard";
 
 interface ProjectsShowcaseProps {
@@ -34,9 +34,9 @@ function StackSpecLine({ items }: { items: string[] }) {
     <p className="font-mono text-xs leading-relaxed text-ink-muted">
       {items.map((tech, idx) => (
         <span key={tech}>
-          <span className="text-ink-secondary">{tech}</span>
+          <span className="text-ink-silver">{tech}</span>
           {idx < items.length - 1 ? (
-            <span aria-hidden="true" className="mx-1.5 text-ink-muted/55">
+            <span aria-hidden="true" className="mx-1.5 text-ink-muted">
               /
             </span>
           ) : null}
@@ -71,7 +71,7 @@ function ProjectRow({
             <span className="font-semibold text-accent">
               {UI_COPY.work.categories[project.category][locale]}
             </span>
-            <span aria-hidden="true" className="text-ink-muted/60">
+            <span aria-hidden="true" className="text-ink-muted">
               /
             </span>
             <span className="tabular-nums text-ink-muted">{project.year}</span>
@@ -79,7 +79,7 @@ function ProjectRow({
           <h3 className="mt-2 font-display text-xl font-semibold tracking-tight text-ink">
             {project.title}
           </h3>
-          <p className="mt-1 text-sm font-medium text-ink-secondary">
+          <p className="mt-1 text-sm font-medium text-ink-silver">
             {project.subtitle[locale]}
           </p>
           <div className="mt-3">
@@ -92,14 +92,14 @@ function ProjectRow({
             {project.summary[locale]}
           </p>
 
-          {/* Distinct borderless button hierarchy — primary terracotta, secondary stone, tertiary disclosure */}
-          <div className="mt-5 flex flex-wrap items-center gap-2">
+          {/* Distinct high-contrast Midnight Monochrome button tiers */}
+          <div className="mt-5 flex flex-wrap items-center gap-2.5">
             {project.liveUrl ? (
               <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex min-h-[40px] items-center gap-1.5 rounded-[10px] bg-accent px-4 py-1.5 text-xs font-semibold text-plate transition-[background-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-accent-hover active:scale-[0.97]"
+                className="group inline-flex min-h-[40px] items-center gap-1.5 rounded-[10px] bg-accent px-4 py-1.5 text-xs font-bold text-bench transition-[background-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-accent-hover active:scale-[0.97]"
               >
                 <Globe size={14} weight="bold" />
                 <span>{UI_COPY.work.liveDemo[locale]}</span>
@@ -115,9 +115,9 @@ function ProjectRow({
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex min-h-[40px] items-center gap-1.5 rounded-[10px] bg-recess px-4 py-1.5 text-xs font-semibold text-ink transition-[background-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-ink hover:text-plate active:scale-[0.97]"
+              className="group inline-flex min-h-[40px] items-center gap-1.5 rounded-[10px] border border-hairline-strong bg-recess px-4 py-1.5 text-xs font-semibold text-ink transition-[background-color,border-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-ink hover:bg-ink hover:text-bench active:scale-[0.97]"
             >
-              <GithubLogo size={14} weight="bold" />
+              <SocialIcon platform="github" size={14} />
               <span>{UI_COPY.work.sourceCode[locale]}</span>
               <ArrowUpRight
                 size={13}
@@ -130,10 +130,10 @@ function ProjectRow({
               type="button"
               onClick={onToggle}
               aria-expanded={expanded}
-              className={`inline-flex min-h-[40px] cursor-pointer items-center gap-1.5 rounded-[10px] px-3.5 py-1.5 text-xs font-semibold transition-[background-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] ${
+              className={`inline-flex min-h-[40px] cursor-pointer items-center gap-1.5 rounded-[10px] border px-3.5 py-1.5 text-xs font-semibold transition-[background-color,border-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] ${
                 expanded
-                  ? "bg-accent-soft text-accent"
-                  : "bg-plate text-ink-secondary hover:bg-recess/80 hover:text-ink"
+                  ? "border-accent/50 bg-accent-soft text-accent"
+                  : "border-hairline bg-plate text-ink-silver hover:border-hairline-strong hover:bg-recess hover:text-ink"
               }`}
             >
               <span>
@@ -230,7 +230,7 @@ export function ProjectsShowcase({ locale, projects }: ProjectsShowcaseProps) {
           <div
             role="tablist"
             aria-label="Filter projects by domain"
-            className="inline-flex w-fit max-w-full flex-wrap items-center gap-1 rounded-[12px] bg-recess p-1"
+            className="inline-flex w-fit max-w-full flex-wrap items-center gap-1 rounded-[12px] border border-hairline bg-plate p-1"
           >
             {CATEGORIES.map((cat) => {
               const active = category === cat;
@@ -249,16 +249,16 @@ export function ProjectsShowcase({ locale, projects }: ProjectsShowcaseProps) {
                     setCategory(cat);
                     setExpandedId(null);
                   }}
-                  className={`inline-flex min-h-[38px] cursor-pointer items-center gap-2 whitespace-nowrap rounded-[9px] px-3.5 text-xs font-semibold transition-[background-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] ${
+                  className={`inline-flex min-h-[38px] cursor-pointer items-center gap-2 whitespace-nowrap rounded-[8px] px-3.5 text-xs font-semibold transition-[background-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] ${
                     active
-                      ? "bg-ink text-plate"
-                      : "bg-transparent text-ink-secondary hover:bg-plate/65 hover:text-ink"
+                      ? "bg-accent text-bench"
+                      : "bg-transparent text-ink-secondary hover:bg-recess hover:text-ink"
                   }`}
                 >
                   <span>{UI_COPY.work.categories[cat][locale]}</span>
                   <span
                     className={`font-mono text-[11px] tabular-nums ${
-                      active ? "text-plate/70" : "text-ink-muted"
+                      active ? "text-bench/80" : "text-ink-muted"
                     }`}
                   >
                     {count}
@@ -278,22 +278,22 @@ export function ProjectsShowcase({ locale, projects }: ProjectsShowcaseProps) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.99 }}
               transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
-              className="mt-10 bezel-outer rounded-[18px] p-1.5 ring-1 ring-ink/[0.08]"
+              className="mt-10"
             >
-              <SpotlightCard className="bezel-inner rounded-[13px] p-6 sm:p-8 lg:p-10">
+              <SpotlightCard className="rounded-[14px] border border-hairline bg-plate p-6 sm:p-8 lg:p-10">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center">
                   <div className="lg:col-span-7">
                     <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
                       <span className="font-semibold text-accent">
                         {UI_COPY.work.spotlightLabel[locale]}
                       </span>
-                      <span aria-hidden="true" className="text-ink-muted/60">
+                      <span aria-hidden="true" className="text-ink-muted">
                         /
                       </span>
-                      <span className="text-ink-secondary">
+                      <span className="text-ink-silver">
                         {UI_COPY.work.categories[spotlight.category][locale]}
                       </span>
-                      <span aria-hidden="true" className="text-ink-muted/60">
+                      <span aria-hidden="true" className="text-ink-muted">
                         /
                       </span>
                       <span className="tabular-nums text-ink-muted">
@@ -304,7 +304,7 @@ export function ProjectsShowcase({ locale, projects }: ProjectsShowcaseProps) {
                     <h3 className="mt-3.5 font-display text-2xl font-semibold tracking-[-0.025em] text-ink sm:text-3xl">
                       {spotlight.title}
                     </h3>
-                    <p className="mt-1.5 text-base font-medium text-ink-secondary">
+                    <p className="mt-1.5 text-base font-medium text-ink-silver">
                       {spotlight.subtitle[locale]}
                     </p>
                     <p className="mt-4 max-w-[60ch] text-[15px] leading-relaxed text-ink-secondary">
@@ -315,13 +315,13 @@ export function ProjectsShowcase({ locale, projects }: ProjectsShowcaseProps) {
                       <StackSpecLine items={spotlight.stack} />
                     </div>
 
-                    <div className="mt-7 flex flex-wrap items-center gap-2.5">
+                    <div className="mt-7 flex flex-wrap items-center gap-3">
                       {spotlight.liveUrl ? (
                         <a
                           href={spotlight.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group inline-flex min-h-[46px] items-center gap-2.5 rounded-[10px] bg-accent px-5 text-sm font-semibold text-plate transition-[background-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-accent-hover active:scale-[0.97]"
+                          className="group inline-flex min-h-[46px] items-center gap-2.5 rounded-[10px] bg-accent px-5 text-sm font-bold text-bench transition-[background-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-accent-hover active:scale-[0.97]"
                         >
                           <span>{UI_COPY.work.liveDemo[locale]}</span>
                           <ArrowUpRight
@@ -336,16 +336,16 @@ export function ProjectsShowcase({ locale, projects }: ProjectsShowcaseProps) {
                         href={spotlight.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group inline-flex min-h-[46px] items-center gap-2.5 rounded-[10px] bg-ink px-5 text-sm font-semibold text-plate transition-[background-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-ink/85 active:scale-[0.97]"
+                        className="group inline-flex min-h-[46px] items-center gap-2.5 rounded-[10px] bg-ink px-5 text-sm font-bold text-bench transition-[background-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-ink-silver active:scale-[0.97]"
                       >
-                        <GithubLogo size={16} weight="bold" />
+                        <SocialIcon platform="github" size={16} />
                         <span>{UI_COPY.work.sourceCode[locale]}</span>
                       </a>
                     </div>
                   </div>
 
                   <div className="lg:col-span-5">
-                    <div className="rounded-[12px] bg-bench p-5 sm:p-6">
+                    <div className="rounded-[12px] border border-hairline bg-bench p-5 sm:p-6">
                       <div className="space-y-4">
                         <div>
                           <div className="font-mono text-[11px] font-semibold text-accent">

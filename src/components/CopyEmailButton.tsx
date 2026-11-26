@@ -43,10 +43,10 @@ export function CopyEmailButton({
         type="button"
         onClick={handleCopy}
         aria-live="polite"
-        className={`inline-flex min-h-[46px] cursor-pointer items-center gap-2.5 rounded-[10px] px-4 py-2.5 text-sm font-medium transition-[background-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] ${
+        className={`inline-flex min-h-[46px] cursor-pointer items-center gap-2.5 rounded-[10px] border px-4 py-2.5 text-sm font-semibold transition-[background-color,border-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] ${
           copied
-            ? "bg-accent text-plate"
-            : "bg-white/10 text-plate hover:bg-white/18"
+            ? "border-accent bg-accent text-bench"
+            : "border-hairline-strong bg-recess text-ink hover:border-ink hover:bg-ink hover:text-bench"
         }`}
       >
         <span className="font-mono text-[13px] tracking-tight">
@@ -55,7 +55,7 @@ export function CopyEmailButton({
         {copied ? (
           <Check size={15} weight="bold" />
         ) : (
-          <Copy size={15} weight="bold" className="opacity-75" />
+          <Copy size={15} weight="bold" className="opacity-80" />
         )}
       </button>
     );
@@ -66,16 +66,16 @@ export function CopyEmailButton({
       type="button"
       onClick={handleCopy}
       aria-live="polite"
-      className={`inline-flex min-h-[46px] cursor-pointer items-center gap-2.5 rounded-[10px] px-5 py-2.5 text-sm font-semibold transition-[background-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] ${
+      className={`inline-flex min-h-[46px] cursor-pointer items-center gap-2.5 rounded-[10px] border px-5 py-2.5 text-sm font-semibold transition-[background-color,border-color,color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] ${
         copied
-          ? "bg-ink text-plate"
-          : "bg-recess text-ink hover:bg-ink hover:text-plate"
+          ? "border-accent bg-accent text-bench"
+          : "border-hairline-strong bg-recess text-ink hover:border-ink hover:bg-ink hover:text-bench"
       }`}
     >
       {copied ? (
         <Check size={16} weight="bold" />
       ) : (
-        <Copy size={16} weight="bold" />
+        <Copy size={16} weight="bold" className="text-accent" />
       )}
       <span>{copied ? copiedLabel : label}</span>
     </button>
