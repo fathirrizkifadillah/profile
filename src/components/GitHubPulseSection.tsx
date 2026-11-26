@@ -62,7 +62,7 @@ export function GitHubPulseSection({
       className="relative z-10 rounded-t-[24px] border-t border-hairline bg-plate py-16 sm:py-22"
     >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        {/* Top Row: Large HD GitHub Banner + Interactive Engineering Bench */}
+        {/* Top Row: Large HD GitHub Banner + 4-Mode Interactive Engineering Sandbox */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch">
           {showBanner && hdBannerSrc ? (
             <motion.div
@@ -70,7 +70,7 @@ export function GitHubPulseSection({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
-              className="flex flex-col overflow-hidden rounded-[14px] border border-hairline bg-bench lg:col-span-7"
+              className="flex flex-col overflow-hidden rounded-[14px] border border-hairline bg-bench lg:col-span-6"
             >
               <div className="flex items-center justify-between border-b border-hairline px-5 py-3 font-mono text-xs">
                 <span className="font-semibold text-ink">
@@ -109,9 +109,9 @@ export function GitHubPulseSection({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.45, delay: 0.05, ease: [0.23, 1, 0.32, 1] }}
-            className={showBanner && hdBannerSrc ? "lg:col-span-5" : "lg:col-span-12"}
+            className={showBanner && hdBannerSrc ? "lg:col-span-6" : "lg:col-span-12"}
           >
-            <SignalWorkbench locale={locale} />
+            <SignalWorkbench locale={locale} publicRepos={telemetry.publicRepos} />
           </motion.div>
         </div>
 
