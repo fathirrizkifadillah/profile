@@ -9,6 +9,7 @@ import {
   type KeyboardEvent,
   type PointerEvent as ReactPointerEvent,
 } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowsClockwise,
@@ -25,7 +26,14 @@ type WorkbenchMode = "phisguard" | "federated" | "radar" | "cli";
 
 interface SignalWorkbenchProps {
   locale: Locale;
+  onLocaleChange?: (next: Locale) => void;
   publicRepos?: number;
+  links?: {
+    github: string;
+    linkedin: string;
+    kaggle: string;
+    instagram: string;
+  };
 }
 
 interface CliLine {
@@ -63,12 +71,28 @@ const INITIAL_LOSS_HISTORY = [0.68, 0.56, 0.47, 0.39, 0.33];
 
 const CLI_COMMANDS = [
   "help",
+  "ls",
+  "cd work",
+  "cd systems",
+  "cd timeline",
+  "cd contact",
+  "cd studio",
+  "cd ~",
+  "goto work",
+  "goto contact",
+  "open github",
+  "open linkedin",
+  "open kaggle",
+  "open instagram",
+  "open radar",
+  "open fl",
+  "open phisguard",
+  "lang id",
+  "lang en",
   "vedora --status",
   "vedora theme",
   "vedora projects",
   "vedora scan http://paypa1-secure-verify.xyz/login",
-  "vedora open radar",
-  "vedora open fl",
   "vedora contact",
   "clear",
 ];
@@ -79,8 +103,11 @@ function clamp(val: number, min: number, max: number): number {
 
 export function SignalWorkbench({
   locale,
+  onLocaleChange,
   publicRepos = 28,
+  links,
 }: SignalWorkbenchProps) {
+  const router = useRouter();
   const [mode, setMode] = useState<WorkbenchMode>("radar");
 
   // --- Mode 1: PhisGuard Live URL Scanner ---
@@ -187,6 +214,23 @@ export function SignalWorkbench({
     }
   }, [cliEntries, mode]);
 
+  function scrollToSection(selector: string) {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (!prefersReduced) {
+      window.dispatchEvent(
+        new CustomEvent("vedora:scroll-to", { detail: { target: selector } })
+      );
+      return;
+    }
+    if (selector === "#top") {
+      window.scrollTo({ top: 0 });
+    } else {
+      document.querySelector(selector)?.scrollIntoView();
+    }
+  }
+
   function executeCommand(rawCmd: string) {
     const trimmed = rawCmd.trim();
     if (!trimmed) return;
@@ -200,6 +244,32 @@ export function SignalWorkbench({
 
     if (lower === "clear" || lower === "cls") {
       setCliEntries([]);
+      return;
+    }
+
+    if (lower === "ls" || lower === "dir" || lower === "routes") {
+      setCliEntries((prev) => [
+        ...prev,
+        {
+          id,
+          command: trimmed,
+          lines: [
+            {
+              text:
+                locale === "en"
+                  ? "ROUTES & DESTINATIONS (click any line to jump):"
+                  : "DAFTAR HALAMAN & SECTION (klik baris untuk pindah):",
+              tone: "accent",
+            },
+            { text: "  work/       Selected AI, Vision & IoT builds", tone: "bright", runCommand: "cd work" },
+            { text: "  systems/    Engineering capabilities & architecture", tone: "bright", runCommand: "cd systems" },
+            { text: "  timeline/   MAUNC leadership & track record", tone: "bright", runCommand: "cd timeline" },
+            { text: "  contact/    Direct email & social links", tone: "bright", runCommand: "cd contact" },
+            { text: "  studio/     Owner CMS dashboard (/admin)", tone: "bright", runCommand: "cd studio" },
+            { text: "  ~/          Scroll back to Hero top", tone: "muted", runCommand: "cd ~" },
+          ],
+        },
+      ]);
       return;
     }
 
@@ -218,12 +288,30 @@ export function SignalWorkbench({
               tone: "accent",
             },
             {
-              text: "  $ vedora --status",
+              text: "  $ ls",
               tone: "bright",
-              runCommand: "vedora --status",
+              runCommand: "ls",
             },
             {
-              text: "    -> ringkasan profil, MAUNC IoT Lead & repo GitHub",
+              text: "    -> lihat daftar halaman/section yang bisa dituju",
+              tone: "muted",
+            },
+            {
+              text: "  $ cd work   (atau: systems | timeline | contact | studio | ~)",
+              tone: "bright",
+              runCommand: "cd work",
+            },
+            {
+              text: "    -> pindah section atau buka /admin Studio via CLI",
+              tone: "muted",
+            },
+            {
+              text: "  $ open github   (atau: linkedin | kaggle | instagram | radar | fl)",
+              tone: "bright",
+              runCommand: "open radar",
+            },
+            {
+              text: "    -> buka link profil eksternal atau ganti mode lab",
               tone: "muted",
             },
             {
@@ -236,27 +324,104 @@ export function SignalWorkbench({
               tone: "muted",
             },
             {
-              text: "  $ vedora open radar   (atau: fl | phisguard)",
+              text: "  $ lang id   |   $ lang en   |   $ vedora --status   |   $ clear",
               tone: "bright",
-              runCommand: "vedora open radar",
+              runCommand: locale === "en" ? "lang id" : "lang en",
             },
+          ],
+        },
+      ]);
+      return;
+    }
+
+    // Page & Section Navigation via cd / goto / vedora goto
+    if (
+      lower.startsWith("cd ") ||
+      lower.startsWith("goto ") ||
+      lower.startsWith("vedora goto ")
+    ) {
+      const dest = lower
+        .replace(/^(vedora\s+)?(cd|goto)\s+/, "")
+        .replace(/^[/#]+/, "")
+        .replace(/\/+$/, "")
+        .trim();
+
+      const sectionMap: Record<string, { selector: string; label: string }> = {
+        "~": { selector: "#top", label: "Hero (top)" },
+        top: { selector: "#top", label: "Hero (top)" },
+        home: { selector: "#top", label: "Hero (top)" },
+        hero: { selector: "#top", label: "Hero (top)" },
+        work: { selector: "#work", label: "Selected Work (#work)" },
+        projects: { selector: "#work", label: "Selected Work (#work)" },
+        karya: { selector: "#work", label: "Karya Pilihan (#work)" },
+        systems: { selector: "#systems", label: "Systems & Capabilities (#systems)" },
+        sistem: { selector: "#systems", label: "Sistem (#systems)" },
+        timeline: { selector: "#timeline", label: "Leadership & Timeline (#timeline)" },
+        perjalanan: { selector: "#timeline", label: "Perjalanan (#timeline)" },
+        contact: { selector: "#contact", label: "Contact (#contact)" },
+        kontak: { selector: "#contact", label: "Kontak (#contact)" },
+      };
+
+      if (dest === "admin" || dest === "studio" || dest === "dashboard") {
+        setCliEntries((prev) => [
+          ...prev,
+          {
+            id,
+            command: trimmed,
+            lines: [
+              { text: "Navigating to /admin (Vedora Studio)...", tone: "accent" },
+            ],
+          },
+        ]);
+        router.push("/admin");
+        return;
+      }
+
+      const found = sectionMap[dest];
+      if (found) {
+        setCliEntries((prev) => [
+          ...prev,
+          {
+            id,
+            command: trimmed,
+            lines: [
+              { text: `Jumping to ${found.label}...`, tone: "accent" },
+            ],
+          },
+        ]);
+        scrollToSection(found.selector);
+        return;
+      }
+
+      setCliEntries((prev) => [
+        ...prev,
+        {
+          id,
+          command: trimmed,
+          lines: [
             {
-              text: "    -> pindah langsung ke tab lab interaktif",
+              text: `route not found: '${dest}'. Try 'cd work', 'cd systems', 'cd timeline', 'cd contact', 'cd studio', or 'ls'.`,
               tone: "muted",
             },
+          ],
+        },
+      ]);
+      return;
+    }
+
+    // Switch language directly from CLI
+    if (lower === "lang id" || lower === "lang en" || lower === "vedora lang id" || lower === "vedora lang en") {
+      const nextLocale: Locale = lower.endsWith("id") ? "id" : "en";
+      onLocaleChange?.(nextLocale);
+      setCliEntries((prev) => [
+        ...prev,
+        {
+          id,
+          command: trimmed,
+          lines: [
             {
-              text: "  $ vedora projects",
-              tone: "bright",
-              runCommand: "vedora projects",
-            },
-            {
-              text: "    -> daftar proyek utama AI, Vision & IoT",
-              tone: "muted",
-            },
-            {
-              text: "  $ vedora theme   |   $ vedora contact   |   $ clear",
-              tone: "bright",
-              runCommand: "vedora theme",
+              text: `Locale switched to ${nextLocale.toUpperCase()}.`,
+              tone: "accent",
             },
           ],
         },
@@ -297,7 +462,7 @@ export function SignalWorkbench({
       return;
     }
 
-    if (lower === "projects" || lower === "vedora projects" || lower === "ls") {
+    if (lower === "projects" || lower === "vedora projects") {
       setCliEntries((prev) => [
         ...prev,
         {
@@ -342,6 +507,33 @@ export function SignalWorkbench({
       }
       if (target === "phisguard" || target === "scan") {
         setMode("phisguard");
+        return;
+      }
+      if (target === "admin" || target === "studio") {
+        router.push("/admin");
+        return;
+      }
+      const externalMap: Record<string, string | undefined> = {
+        github: links?.github ?? "https://github.com/fathirrizkifadillah",
+        linkedin:
+          links?.linkedin ??
+          "https://www.linkedin.com/in/fathir-rizki-fadillah-8931b931b/",
+        kaggle: links?.kaggle ?? "https://www.kaggle.com/fathirrizkifadillah",
+        instagram: links?.instagram ?? "https://instagram.com/frzkifadillah",
+      };
+      const externalUrl = externalMap[target];
+      if (externalUrl) {
+        window.open(externalUrl, "_blank", "noopener,noreferrer");
+        setCliEntries((prev) => [
+          ...prev,
+          {
+            id,
+            command: trimmed,
+            lines: [
+              { text: `Opened ${target} (${externalUrl})`, tone: "accent" },
+            ],
+          },
+        ]);
         return;
       }
     }
@@ -1000,9 +1192,9 @@ export function SignalWorkbench({
                 <div className="flex flex-wrap items-center gap-1">
                   {[
                     { label: "help", cmd: "help" },
-                    { label: "status", cmd: "vedora --status" },
+                    { label: "ls", cmd: "ls" },
+                    { label: "cd work", cmd: "cd work" },
                     { label: "scan", cmd: "vedora scan http://paypa1-secure-verify.xyz/login" },
-                    { label: "projects", cmd: "vedora projects" },
                     { label: "clear", cmd: "clear" },
                   ].map((quick) => (
                     <button
@@ -1084,9 +1276,9 @@ export function SignalWorkbench({
                   value={cliInput}
                   onChange={(e) => setCliInput(e.target.value)}
                   onKeyDown={handleCliKeyDown}
-                  placeholder="help | vedora --status | vedora scan <url>"
+                  placeholder="ls | cd work | cd studio | help"
                   aria-label="Vedora CLI command input"
-                  className="min-h-[38px] w-full bg-transparent font-mono text-xs text-ink placeholder:text-ink-muted focus:outline-none focus-visible:outline-none"
+                  className="min-h-[38px] w-full border-0 bg-transparent font-mono text-xs text-ink outline-none placeholder:text-ink-muted focus:outline-none focus-visible:outline-none"
                 />
                 <button
                   type="submit"

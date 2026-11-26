@@ -483,10 +483,12 @@ export function PortfolioShell({ content, telemetry }: PortfolioShellProps) {
             {content.meta.showGitHubPulse ? (
               <GitHubPulseSection
                 locale={locale}
+                onLocaleChange={setLocale}
                 telemetry={telemetry}
                 currentFocus={cleanedFocus}
                 stackGroups={cleanedStackGroups}
                 githubUrl={content.meta.links.github}
+                links={content.meta.links}
                 alias={content.meta.alias}
                 showBanner={content.meta.showBanner}
                 bannerUrl={content.meta.bannerUrl}

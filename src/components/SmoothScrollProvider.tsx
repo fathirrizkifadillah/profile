@@ -56,7 +56,22 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
       lenis.scrollTo(target, { offset: -20, duration: 1.15 });
     };
 
+    const handleCustomScroll = (event: Event) => {
+      const custom = event as CustomEvent<{ target?: string }>;
+      const targetStr = custom.detail?.target;
+      if (!targetStr) return;
+      if (targetStr === "#top" || targetStr === "top") {
+        lenis.scrollTo(0, { duration: 1.1 });
+        return;
+      }
+      const el = document.querySelector<HTMLElement>(targetStr);
+      if (el) {
+        lenis.scrollTo(el, { offset: -20, duration: 1.15 });
+      }
+    };
+
     document.addEventListener("click", handleAnchorClick);
+    window.addEventListener("vedora:scroll-to", handleCustomScroll);
 
     const refreshTimer = window.setTimeout(() => {
       ScrollTrigger.refresh();
@@ -65,6 +80,7 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     return () => {
       window.clearTimeout(refreshTimer);
       document.removeEventListener("click", handleAnchorClick);
+      window.removeEventListener("vedora:scroll-to", handleCustomScroll);
       gsap.ticker.remove(tick);
       lenis.destroy();
     };

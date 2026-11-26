@@ -18,10 +18,17 @@ import { SpotlightCard } from "./reactbits/SpotlightCard";
 
 interface GitHubPulseSectionProps {
   locale: Locale;
+  onLocaleChange: (next: Locale) => void;
   telemetry: GitHubTelemetry;
   currentFocus: FocusTrack[];
   stackGroups: StackGroup[];
   githubUrl: string;
+  links: {
+    github: string;
+    linkedin: string;
+    kaggle: string;
+    instagram: string;
+  };
   alias: string;
   showBanner: boolean;
   bannerUrl: string;
@@ -46,10 +53,12 @@ function formatDateShort(iso: string): string {
 
 export function GitHubPulseSection({
   locale,
+  onLocaleChange,
   telemetry,
   currentFocus,
   stackGroups,
   githubUrl,
+  links,
   alias,
   showBanner,
   bannerUrl,
@@ -111,7 +120,12 @@ export function GitHubPulseSection({
             transition={{ duration: 0.45, delay: 0.05, ease: [0.23, 1, 0.32, 1] }}
             className={showBanner && hdBannerSrc ? "lg:col-span-6" : "lg:col-span-12"}
           >
-            <SignalWorkbench locale={locale} publicRepos={telemetry.publicRepos} />
+            <SignalWorkbench
+              locale={locale}
+              onLocaleChange={onLocaleChange}
+              publicRepos={telemetry.publicRepos}
+              links={links}
+            />
           </motion.div>
         </div>
 
